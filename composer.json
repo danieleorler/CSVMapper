@@ -1,0 +1,24 @@
+{
+    "name": "FBK/CSVMapper",
+    "description": "Maps csv file to tables and apply functions",
+    "keywords": ["csv"],
+    "homepage": "",
+    "type": "library",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Daniele Orler",
+            "email": "danorler@fbk.eu",
+            "homepage": "http://fbk.eu"
+        }
+    ],
+    "require": {
+        "php": ">=5.3.0"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "3.7.*"
+    },
+    "autoload": {
+        "psr-0": {"CSVMapper": "src/"}
+    }
+}
