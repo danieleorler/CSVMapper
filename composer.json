@@ -1,9 +1,9 @@
 {
     "name": "FBK/CSVMapper",
-    "description": "Maps csv file to tables and apply functions",
-    "keywords": ["csv"],
-    "homepage": "",
     "type": "library",
+    "description": "CSV parser with callbacks on fields",
+    "keywords": ["csv"],
+    "homepage": "https://github.com/danieleorler/CSVMapper",
     "license": "MIT",
     "authors": [
         {
