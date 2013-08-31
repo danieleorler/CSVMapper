@@ -5,6 +5,8 @@ namespace CSVMapper;
 use CSVMapper\Configuration\SettingManager;
 use CSVMapper\Configuration\MappingManager;
 use CSVMapper\Configuration\ErrorManager;
+use CSVMapper\Exception\WrongColumnsNumberException;
+use CSVMapper\Exception\ConfigurationMissingExcepion;
 
 class Csv
 {
@@ -51,18 +53,42 @@ class Csv
 	 */
 	function looper()
 	{
+		if(empty($this->setting_manager->get_setting('folder')))
+		{
+			throw new ConfigurationMissingExcepion(sprintf("Configuration %s is missing!",'folder'), 2);
+		}
+
+		if(empty($this->setting_manager->get_setting('filename')))
+		{
+			throw new ConfigurationMissingExcepion(sprintf("Configuration %s is missing!",'filename'), 3);
+		}
+
 		$filepath = sprintf("%s/%s",$this->setting_manager->get_setting('folder'),$this->setting_manager->get_setting('filename'));
 		$file = fopen($filepath, "r");
 
-		$separator = $this->setting_manager->get_setting('separator');
+		if($this->setting_manager->get_setting('separator') !== null)
+		{
+			$separator = $this->setting_manager->get_setting('separator');
+		}
+		else
+		{
+			$separator = ';';
+		}
 
-		$columns_count = count(explode($separator,fgets($file)));
-		$allowed_count = $this->setting_manager->get_setting('columns_allowed');
+		if($this->setting_manager->get_setting('columns_allowed') !== null)
+		{
+			$columns_count = count(explode($separator,fgets($file)));
+			$allowed_count = $this->setting_manager->get_setting('columns_allowed');
+		}
+		else
+		{
+			$allowed_count = FALSE;
+		}
 
 		if($allowed_count && $columns_count != $allowed_count)
 		{
 			fclose($file);
-			return FALSE;
+			throw new WrongColumnsNumberException(sprintf("Expected %d columns, found %d!",$allowed_count,$columns_count), 1);
 		}
 		else
 		{
