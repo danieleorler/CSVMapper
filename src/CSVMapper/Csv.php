@@ -53,12 +53,12 @@ class Csv
 	 */
 	function looper()
 	{
-		if(empty($this->setting_manager->get_setting('folder')))
+		if(!$this->setting_manager->get_setting('folder'))
 		{
 			throw new ConfigurationMissingExcepion(sprintf("Configuration %s is missing!",'folder'), 2);
 		}
 
-		if(empty($this->setting_manager->get_setting('filename')))
+		if(!$this->setting_manager->get_setting('filename'))
 		{
 			throw new ConfigurationMissingExcepion(sprintf("Configuration %s is missing!",'filename'), 3);
 		}
