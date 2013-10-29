@@ -99,7 +99,7 @@ class Csv
 				$line = fgets($file);
 				if(strlen($line) > 0)
 				{
-					if($row = $this->parser(explode($separator,$line)))
+					if($row == $this->parser(explode($separator,$line)))
 					{
 						$rows[] = $row;
 					}
