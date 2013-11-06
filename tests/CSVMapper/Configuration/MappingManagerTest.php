@@ -11,7 +11,6 @@
 			
 			$expected = array('key'=>4, 'fn'=>'$input','$period = explode("/",$input); return intval($period[1]);','test'=>FALSE);
 			$result = $manager->get_mapping("mese");
-
 			$this->assertEquals($result,$expected);
 		}
 	}

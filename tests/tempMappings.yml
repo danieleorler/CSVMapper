@@ -1,0 +1,21 @@
+## YAML Template.
+---
+month:
+    key: 0
+    fn:
+        parameter: $input
+        body: return strlen($input) == 1?"0".$input:$input;
+    test:
+        parameter: $input
+        body: return is_numeric($input);
+year:
+    key: 1
+    fn: FALSE
+    test: FALSE
+
+temperature:
+    key: 2
+    fn:
+        parameter: $input
+        body: return floatval($input);
+    test: FALSE
