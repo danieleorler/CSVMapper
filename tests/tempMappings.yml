@@ -1,27 +1,34 @@
 ## YAML Template.
 ---
-month:
-    key: 0
-    fn:
-        parameter: $input
-        body: return strlen($input) == 1?"0".$input:$input;
-    test:
-        parameter: $input
-        body: return is_numeric($input);
-year:
-    key: 1
-    fn: FALSE
-    test: FALSE
+setting:
+    columns_allowed: 3
+    separator: ;
+    folder: ./tests
+    filename: temperatures.csv
 
-temperature:
-    key: 2
-    fn:
-        parameter: $input
-        body: return floatval($input);
-    test: FALSE
-    
-fixed_field:
-    key: NULL
-    value: default_value
-    fn: FALSE
-    test: FALSE
+mapping:
+    month:
+        key: 0
+        fn:
+            parameter: $input
+            body: return strlen($input) == 1?"0".$input:$input;
+        test:
+            parameter: $input
+            body: return is_numeric($input);
+    year:
+        key: 1
+        fn: FALSE
+        test: FALSE
+
+    temperature:
+        key: 2
+        fn:
+            parameter: $input
+            body: return floatval($input);
+        test: FALSE
+
+    fixed_field:
+        key: NULL
+        value: default_value
+        fn: FALSE
+        test: FALSE

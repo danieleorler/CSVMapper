@@ -1,8 +1,9 @@
 <?php
 
-namespace CSVMapper\Configuration;
+namespace CSVMapper\Configuration\Yaml;
 
 use Symfony\Component\Yaml\Yaml;
+use CSVMapper\Configuration\MappingManager;
 
 class YamlMappingManager extends MappingManager
 {
@@ -10,8 +11,8 @@ class YamlMappingManager extends MappingManager
     {
         if($filepath)
         {
-            $fields = Yaml::parse(file_get_contents($filepath));
-            foreach($fields AS $k=>$v)
+            $config = Yaml::parse(file_get_contents($filepath));
+            foreach($config['mapping'] AS $k=>$v)
             {
                 $this->set_mapping($k,$this->yamlToArray($v));
             }
