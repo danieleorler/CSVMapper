@@ -122,13 +122,13 @@ class Csv
 
 		foreach($this->mapping_manager->get_all_mappings() AS $key=>$field)
 		{
-			if(is_int($field['key']))
+			if(isset($field['key']) && !is_null($field['key']))
 			{
 				$input = $this->remove_quotes($row[$field['key']]);
 			}
 			else
 			{
-				$input = $field['key'];
+                                $input = $field['value'];
 			}
 
 			if(isset($field['test']) && $field['test'] && !$field['test']($input))

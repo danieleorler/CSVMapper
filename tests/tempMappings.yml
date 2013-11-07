@@ -19,3 +19,9 @@ temperature:
         parameter: $input
         body: return floatval($input);
     test: FALSE
+    
+fixed_field:
+    key: NULL
+    value: default_value
+    fn: FALSE
+    test: FALSE
