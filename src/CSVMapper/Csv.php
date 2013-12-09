@@ -17,7 +17,6 @@ class Csv
 
 	function __contruct()
 	{
-		$this->errors = array();
 	}
 
 	/**

@@ -55,7 +55,7 @@ class MappingManager
 	 * @param  String $key mapping's key
 	 * @return Boolean
 	 */
-	function delete_setting($key)
+	function delete_mapping($key)
 	{
 		if(isset($this->mappings[$key]))
 		{
