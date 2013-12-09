@@ -167,4 +167,12 @@ class CsvTest extends \PHPUnit_Framework_TestCase
 
 		$this->assertEquals($result,$expected);
         }
+
+        
+        public function testRemoveQuotes()
+        {
+            $csv = new Csv();
+            
+            $this->assertEquals($csv->remove_quotes('"2"'), 2);
+        }
 }

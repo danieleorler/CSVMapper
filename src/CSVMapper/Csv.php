@@ -66,7 +66,8 @@ class Csv
 		$filepath = sprintf("%s/%s",$this->setting_manager->get_setting('folder'),$this->setting_manager->get_setting('filename'));
 		$file = fopen($filepath, "r");
 
-		if($this->setting_manager->get_setting('separator') !== null)
+                $separator = $this->setting_manager->get_setting('separator');
+		if(!empty($separator))
 		{
 			$separator = $this->setting_manager->get_setting('separator');
 		}
