@@ -2,9 +2,8 @@
 
 namespace CSVMapper\Exception;
 
-class WrongColumnsNumberException extends \Exception
+class PropertyMissingException extends \Exception
 {
-
     public function __construct($message, $code = 0, Exception $previous = null)
     {
         parent::__construct($message, $code, $previous);
@@ -14,5 +13,4 @@ class WrongColumnsNumberException extends \Exception
     {
         return __CLASS__ . ": [{$this->code}]: {$this->message}\n";
     }
-
 }
