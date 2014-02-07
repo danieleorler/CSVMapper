@@ -15,12 +15,19 @@ namespace CSVMapper\Source;
  */
 class CsvFile extends File
 {
-    private $separator;
-    private $columnsAllowed;
+    private $separator = null;
+    private $columnsAllowed = null;
     
     public function getSeparator()
     {
-        return $this->separator;
+        if(empty($this->separator))
+        {
+            return ";";
+        }
+        else
+        {
+            return $this->separator;
+        }
     }
 
     public function setSeparator($separator)
@@ -30,7 +37,14 @@ class CsvFile extends File
     
     public function getColumnsAllowed()
     {
-        return $this->columnsAllowed;
+        if(empty($this->columnsAllowed))
+        {
+            return FALSE;
+        }
+        else
+        {
+            return $this->columnsAllowed;
+        }
     }
 
     public function setColumnsAllowed($columnsAllowed)

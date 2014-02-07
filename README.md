@@ -3,6 +3,7 @@ CSVMapper
 
 [![Build Status](https://travis-ci.org/danieleorler/CSVMapper.png?branch=master)](https://travis-ci.org/danieleorler/CSVMapper)
 [![Coverage Status](https://coveralls.io/repos/danieleorler/CSVMapper/badge.png?branch=master)](https://coveralls.io/r/danieleorler/CSVMapper?branch=master)
+[![Scrutinizer Quality Score](https://scrutinizer-ci.com/g/danieleorler/CSVMapper/badges/quality-score.png?s=e6f13eb26e9961b0edf02a1fec1e49143a7975ca)](https://scrutinizer-ci.com/g/danieleorler/CSVMapper/)
 
 CSVMapper is a PHP library which parses CSV files.
 

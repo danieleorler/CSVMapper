@@ -4,7 +4,7 @@ namespace CSVMapper\Reader;
 
 use CSVMapper\Parser\Parser;
 use CSVMapper\Source\File;
-
+use CSVMapper\Exception\WrongColumnsNumberException;
 /**
  * Description of Reader
  *
@@ -41,7 +41,6 @@ class Reader
     {
         $this->file->checkProperty('folder');
         $this->file->checkProperty('name');
-//        $this->file->checkProperty('separator');
         $this->checkColumnsNumber();
     }
     
@@ -50,10 +49,10 @@ class Reader
         $fileColumns = count(explode($this->file->getSeparator(),fgets($this->file->getHandler())));
         $allowedColumns = $this->file->getColumnsAllowed();
         $this->file->reset();
-        if($fileColumns != $allowedColumns)
+        if($allowedColumns && $fileColumns != $allowedColumns)
         {
             $this->file->close();
-            throw new Exception\WrongColumnsNumberException(sprintf("Expected %d columns, found %d!",$allowedColumns,$fileColumns), 1);
+            throw new WrongColumnsNumberException(sprintf("Expected %d columns, found %d!",$allowedColumns,$fileColumns), 1);
         }
     }
     

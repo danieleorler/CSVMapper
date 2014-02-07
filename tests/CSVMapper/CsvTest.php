@@ -77,60 +77,84 @@ class CsvTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($this->expected_table,$result);
     }
 
-	/*
-	* test a correct mapping with columns number limit and default delimiter
-	*/
-//	public function testCorrectMappingDefaultSeparator()
-//	{
-//		$csv = new Csv();
-//		$config = new SettingManager();
-//		$mapping = new MappingManager();
-//		$error = new ErrorManager();
-//
-//		$config->set_setting('folder','./tests');
-//		$config->set_setting('filename','temperatures.csv');
-//		$config->set_setting('columns_allowed',3);
-//
-//		$mapping->set_mapping("month",			array('key'=>0, 'fn'=>create_function('$input','return strlen($input) == 1?"0".$input:$input;'),'test'=>create_function('$input','return is_numeric($input);')));
-//		$mapping->set_mapping("year",			array('key'=>1, 'fn'=>FALSE,'test'=>FALSE));
-//		$mapping->set_mapping("temperature",	array('key'=>2, 'fn'=>create_function('$input','return floatval($input);'),'test'=>FALSE));
-//        $mapping->set_mapping("fixed_field",	array('key'=>NULL, 'value'=>'default_value', 'fn'=>FALSE, 'test'=>FALSE));
-//		
-//		$csv->set_mapping_manager($mapping);
-//		$csv->set_setting_manager($config);
-//		$csv->set_error_manager($error);
-//
-//		$result = $csv->looper();
-//
-//		$this->assertEquals($result,$this->expected_table);
-//	}
-//
-//	/*
-//	* test a correct mapping without columns number limit and with default delimiter
-//	*/
-//	public function testCorrectMappingNoColumnsNumberBound()
-//	{
-//		$csv = new Csv();
-//		$config = new SettingManager();
-//		$mapping = new MappingManager();
-//		$error = new ErrorManager();
-//
-//		$config->set_setting('folder','./tests');
-//		$config->set_setting('filename','temperatures.csv');
-//
-//		$mapping->set_mapping("month",			array('key'=>0, 'fn'=>create_function('$input','return strlen($input) == 1?"0".$input:$input;'),'test'=>create_function('$input','return is_numeric($input);')));
-//		$mapping->set_mapping("year",			array('key'=>1, 'fn'=>FALSE,'test'=>FALSE));
-//		$mapping->set_mapping("temperature",	array('key'=>2, 'fn'=>create_function('$input','return floatval($input);'),'test'=>FALSE));
-//        $mapping->set_mapping("fixed_field",	array('key'=>NULL, 'value'=>'default_value', 'fn'=>FALSE, 'test'=>FALSE));
-//		
-//		$csv->set_mapping_manager($mapping);
-//		$csv->set_setting_manager($config);
-//		$csv->set_error_manager($error);
-//
-//		$result = $csv->looper();
-//
-//		$this->assertEquals($result,$this->expected_table);
-//	}
+    /*
+    * test a correct mapping with columns number limit and default delimiter
+    */
+    public function testCorrectMappingDefaultSeparator()
+    {
+        $file = new Source\CsvFile();
+        $file->setFolder('./tests');
+        $file->setName('temperatures.csv');
+        $file->setColumnsAllowed(3);
+
+        $mapping = new MappingManager();
+        $error = new ErrorManager();
+        $parser = new Parser\Parser();
+        $reader = new Reader\Reader();
+        
+        $mapping->set_mapping("month", array('key' => 0,'fn' => function($input){ return strlen($input) == 1?"0".$input:$input; },'test' => function($input){ return is_numeric($input); }));
+        $mapping->set_mapping("year",		array('key'=>1, 'fn'=>FALSE,'test'=>FALSE));
+        $mapping->set_mapping("temperature",	array('key'=>2, 'fn'=>create_function('$input','return floatval($input);'),'test'=>FALSE));
+        $mapping->set_mapping("fixed_field",	array('key'=>NULL, 'value'=>'default_value', 'fn'=>FALSE, 'test'=>FALSE));
+
+        $parser->setMappingManager($mapping);
+        $parser->setErrorManager($error);
+        
+        $reader->setParser($parser);
+        $reader->setFile($file);
+
+        $result = array();
+        
+        while($reader->hasNextRow())
+        {
+            $row = $reader->getNextRow();
+            if($row !== FALSE)
+            {
+                $result[] = $row;
+            }
+        }
+
+        $this->assertEquals($this->expected_table,$result);
+    }
+
+    /*
+    * test a correct mapping without columns number limit and with default delimiter
+    */
+    public function testCorrectMappingNoColumnsNumberBound()
+    {
+        $file = new Source\CsvFile();
+        $file->setFolder('./tests');
+        $file->setName('temperatures.csv');
+
+        $mapping = new MappingManager();
+        $error = new ErrorManager();
+        $parser = new Parser\Parser();
+        $reader = new Reader\Reader();
+        
+        $mapping->set_mapping("month", array('key' => 0,'fn' => function($input){ return strlen($input) == 1?"0".$input:$input; },'test' => function($input){ return is_numeric($input); }));
+        $mapping->set_mapping("year",		array('key'=>1, 'fn'=>FALSE,'test'=>FALSE));
+        $mapping->set_mapping("temperature",	array('key'=>2, 'fn'=>create_function('$input','return floatval($input);'),'test'=>FALSE));
+        $mapping->set_mapping("fixed_field",	array('key'=>NULL, 'value'=>'default_value', 'fn'=>FALSE, 'test'=>FALSE));
+
+        $parser->setMappingManager($mapping);
+        $parser->setErrorManager($error);
+        
+        $reader->setParser($parser);
+        $reader->setFile($file);
+
+        $result = array();
+        
+        while($reader->hasNextRow())
+        {
+            $row = $reader->getNextRow();
+            if($row !== FALSE)
+            {
+                $result[] = $row;
+            }
+        }
+
+        $this->assertEquals($this->expected_table,$result);
+    }
 //
 //	/**
 //    * @expectedException CSVMapper\Exception\WrongColumnsNumberException
