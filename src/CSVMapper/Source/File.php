@@ -54,7 +54,7 @@ class File
     
     public function open()
     {
-        $this->handler = fopen($this->getPath(), "r");
+        $this->handler = $this->openFile($this->getPath());
         return $this->handler;
     }
 
