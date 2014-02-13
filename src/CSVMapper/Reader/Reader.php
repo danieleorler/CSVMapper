@@ -46,7 +46,7 @@ class Reader
     
     private function checkColumnsNumber()
     {
-        $fileColumns = count(explode($this->file->getSeparator(),fgets($this->file->getHandler())));
+        $fileColumns = $this->file->getFileColumns();
         $allowedColumns = $this->file->getColumnsAllowed();
         $this->file->reset();
         if($allowedColumns && $fileColumns != $allowedColumns)
@@ -58,7 +58,7 @@ class Reader
     
     public function getNextRow()
     {
-        $rawRow = explode($this->file->getSeparator(), fgets($this->file->getHandler()));
+        $rawRow = $this->file->getRawRow();
         return $this->parser->parse($rawRow);
     }
     

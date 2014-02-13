@@ -13,8 +13,12 @@
  */
 namespace CSVMapper\Source;
 
+use PHPExcel_IOFactory;
+
 class ExcelFile extends File {
 
+   private $rowNumber = null;
+    
     public function getColumnsAllowed() {
         if (empty($this->columnsAllowed)) {
             return FALSE;
@@ -35,7 +39,20 @@ class ExcelFile extends File {
         $objReader = PHPExcel_IOFactory::createReader($inputFileType);
         /**  Load $inputFileName to a PHPExcel Object  * */
         $objPHPExcel = $objReader->load($inputFileName);
-
+        $$this->rowNumber = 0;
         return $objPHPExcel;
     }
+    
+    public function getFileColumns()
+    {
+       $highestColumn = $this->getHandler()->getHighestColumn();
+       return $highestColumn;
+    }
+    
+    public function getRawRow()
+    {
+        $excelFile = $this->file;
+        
+    }
+    
 }

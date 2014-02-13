@@ -47,5 +47,18 @@ class CsvFile extends File {
         $handler = fopen($path, "r");
         return $handler;
     }
+    
+    public function getFileColumns()
+    {
+        $fileColumns = count(explode($this->getSeparator(),fgets($this->getHandler())));
+        return $fileColumns;
+    }
+    
+    public function getRawRow()
+    {
+        $rawRow = explode($this->getSeparator(), fgets($this->getHandler()));
+        return $rawRow;
+    }
+           
 
 }
