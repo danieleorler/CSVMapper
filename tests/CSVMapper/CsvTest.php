@@ -161,14 +161,14 @@ class CsvTest extends \PHPUnit_Framework_TestCase {
         $this->assertEquals($this->expected_table, $result);
     }
 
-    public function setCloseFile() {
+    public function testCloseFile() {
         $file = new CsvFile();
         $file->setFolder('./tests/CsvTest');
         $file->setName('temperatures.csv');
-        $file->open();
-        $this->assertFalse($file->getHandler() == null);
+        $file->getHandler();
+        
         $file->close();
-        $this->assertTrue($file->getHandler() == null);
+        $this->assertTrue($file->handler == null);
     }
 
 //

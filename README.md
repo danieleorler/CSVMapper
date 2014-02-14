@@ -1,9 +1,17 @@
 CSVMapper
 =========
+Official repo stats
 
 [![Build Status](https://travis-ci.org/danieleorler/CSVMapper.png?branch=master)](https://travis-ci.org/danieleorler/CSVMapper)
 [![Coverage Status](https://coveralls.io/repos/danieleorler/CSVMapper/badge.png?branch=master)](https://coveralls.io/r/danieleorler/CSVMapper?branch=master)
 [![Scrutinizer Quality Score](https://scrutinizer-ci.com/g/danieleorler/CSVMapper/badges/quality-score.png?s=e6f13eb26e9961b0edf02a1fec1e49143a7975ca)](https://scrutinizer-ci.com/g/danieleorler/CSVMapper/)
+
+Fork stats
+
+[![Build Status](https://travis-ci.org/AndreaGot/CSVMapper.png?branch=no-memory)](https://travis-ci.org/AndreaGot/CSVMapper)
+[![Coverage Status](https://coveralls.io/repos/AndreaGot/CSVMapper/badge.png?branch=no-memory)](https://coveralls.io/r/AndreaGot/CSVMapper?branch=no-memory)
+[![Scrutinizer Quality Score](https://scrutinizer-ci.com/g/AndreaGot/CSVMapper/badges/quality-score.png?s=6710bd2de36c9fb0b1b90de6a72a14f43b1438ec)](https://scrutinizer-ci.com/g/AndreaGot/CSVMapper/)
+
 
 CSVMapper is a PHP library which parses CSV files.
 
