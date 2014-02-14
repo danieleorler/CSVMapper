@@ -66,16 +66,6 @@ class File
         }
         return $this->handler;
     }
-
-    public function close()
-    {
-        if(!empty($this->handler))
-        {
-            fclose($this->handler);
-        }
-        $this->handler = null;
-    }
-   
     
     public function checkProperty($key)
     {

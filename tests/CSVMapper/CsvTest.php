@@ -270,11 +270,7 @@ class CsvTest extends \PHPUnit_Framework_TestCase {
         while ($CSVReader->hasNextRow()) {
             array_push($rows, $CSVReader->getNextRow());
         }
-
-        echo count($this->expected_table);
-        echo print_r($rows);
-        
-        
+       
         $this->assertEquals($this->expected_table, $rows);
     }
 

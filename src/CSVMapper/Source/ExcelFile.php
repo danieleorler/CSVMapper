@@ -94,9 +94,16 @@ class ExcelFile extends File {
         $this->rowNumber = 1;
     }
     
-    public function getHighestColumnIndex()
-    {
+    public function close() {
         
+        $objPHPExcel = $this->getHandler();
+        
+        if (!empty($objPHPExcel)) {
+            unset($this->handler);
+            unset($objPHPExcel);
+        
+        }
+        $this->handler = null;
     }
 
 }

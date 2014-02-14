@@ -47,6 +47,13 @@ class CsvFile extends File {
         return $handler;
     }
 
+    public function close() {
+        if (!empty($this->handler)) {
+            fclose($this->handler);
+        }
+        $this->handler = null;
+    }
+
     public function reset() {
         if (!empty($this->handler)) {
             fseek($this->handler, 0);

@@ -13,7 +13,6 @@ namespace CSVMapper;
  *
  * @author agottardi
  */
-
 use CSVMapper\Configuration\ErrorManager;
 use CSVMapper\Configuration\Yaml\YamlMappingManager;
 use CSVMapper\Configuration\Yaml\YamlSettingManager;
@@ -116,6 +115,21 @@ class ExcelTest extends \PHPUnit_Framework_TestCase {
 
 
         $this->assertEquals($this->testResult, $rows);
+    }
+
+    public function testCloseFile() {
+
+        $file = new ExcelFile;
+        $file->setColumnsAllowed(3);
+        $file->setFolder('./tests/ExcelTest');
+        $file->setName('TestBook.xlsx');
+        $file->open();
+
+        $this->assertFalse($file->getHandler() == null);
+
+        $file->close();
+        
+        $this->assertTrue($file->getHandler() == null);
     }
 
 }
