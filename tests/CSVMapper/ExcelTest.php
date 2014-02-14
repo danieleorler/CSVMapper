@@ -91,14 +91,14 @@ class ExcelTest extends \PHPUnit_Framework_TestCase {
         $XLSFile->setFolder('./tests/ExcelTest');
         $XLSFile->setName('TestBook.xlsx');
 
-        $XLSMapping = new MappingManager();
+//        $XLSMapping = new MappingManager();
+//
+//        $XLSMapping->set_mapping("campo1", array('key' => 0, 'fn' => FALSE, 'test' => FALSE));
+//        $XLSMapping->set_mapping("campo2", array('key' => 1, 'fn' => FALSE, 'test' => FALSE));
+//        $XLSMapping->set_mapping("campo3", array('key' => 2, 'fn' => FALSE, 'test' => FALSE));
 
-        $XLSMapping->set_mapping("campo1", array('key' => 0, 'fn' => FALSE, 'test' => FALSE));
-        $XLSMapping->set_mapping("campo2", array('key' => 1, 'fn' => FALSE, 'test' => FALSE));
-        $XLSMapping->set_mapping("campo3", array('key' => 2, 'fn' => FALSE, 'test' => FALSE));
-
-//        $XLSMapping = new YamlMappingManager($XLSFile->getPath());
-//        $XLSSetting = new YamlSettingManager($XLSFile->getPath());
+        $XLSMapping = new YamlMappingManager('./tests/ExcelTest/TestBookMappings.yml');
+        $XLSSetting = new YamlSettingManager('./tests/ExcelTest/TestBookMappings.yml');
         $XLSError = new ErrorManager();
         $XLSParser = new Parser\Parser();
         $XLSReader = new Reader\Reader();

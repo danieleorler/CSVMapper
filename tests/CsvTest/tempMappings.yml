@@ -3,7 +3,7 @@
 setting:
     columns_allowed: 3
     separator: ;
-    folder: ./tests
+    folder: ./tests/CsvTest
     filename: temperatures.csv
 
 mapping:
