@@ -9,17 +9,17 @@
 namespace CSVMapper;
 
 /**
- * Description of ExcelTest (even if self-explaining)
+ * This class can parse Excel files (in many formats such as xls, xlsx..)
  *
  * @author agottardi
  */
-use CSVMapper\Configuration\SettingManager;
-use CSVMapper\Configuration\Yaml\YamlSettingManager;
-use CSVMapper\Configuration\MappingManager;
-use CSVMapper\Configuration\Yaml\YamlMappingManager;
+
 use CSVMapper\Configuration\ErrorManager;
-use CSVMapper\Exception\WrongColumnsNumberException;
-use CSVMapper\Exception\ConfigurationMissingExcepion;
+use CSVMapper\Configuration\Yaml\YamlMappingManager;
+use CSVMapper\Configuration\Yaml\YamlSettingManager;
+use CSVMapper\Parser\Parser;
+use CSVMapper\Reader\Reader;
+use CSVMapper\Source\ExcelFile;
 
 class ExcelTest extends \PHPUnit_Framework_TestCase {
 
@@ -35,7 +35,7 @@ class ExcelTest extends \PHPUnit_Framework_TestCase {
     );
 
     public function testCorrectHandler() {
-        $file = new Source\ExcelFile;
+        $file = new ExcelFile;
         $file->setColumnsAllowed(3);
         $file->setFolder('./tests/ExcelTest');
         $file->setName('TestBook.xlsx');
@@ -45,7 +45,7 @@ class ExcelTest extends \PHPUnit_Framework_TestCase {
     }
 
     public function testHasRowWithAvailableRows() {
-        $file = new Source\ExcelFile;
+        $file = new ExcelFile;
         $file->setColumnsAllowed(3);
         $file->setFolder('./tests/ExcelTest');
         $file->setName('TestBook.xlsx');
@@ -56,7 +56,7 @@ class ExcelTest extends \PHPUnit_Framework_TestCase {
     }
 
     public function testHasRowWithNoRows() {
-        $file = new Source\ExcelFile;
+        $file = new ExcelFile;
         $file->setColumnsAllowed(0);
         $file->setFolder('./tests/ExcelTest');
         $file->setName('TestBookEmpty.xlsx');
@@ -70,7 +70,7 @@ class ExcelTest extends \PHPUnit_Framework_TestCase {
 
         $array = array();
 
-        $file = new Source\ExcelFile;
+        $file = new ExcelFile;
         $file->setColumnsAllowed(0);
         $file->setFolder('./tests/ExcelTest');
         $file->setName('TestBook.xlsx');
@@ -86,7 +86,7 @@ class ExcelTest extends \PHPUnit_Framework_TestCase {
     public function testCorrectMapping() {
         $rows = array();
 
-        $XLSFile = new Source\ExcelFile;
+        $XLSFile = new ExcelFile;
         $XLSFile->setColumnsAllowed(0);
         $XLSFile->setFolder('./tests/ExcelTest');
         $XLSFile->setName('TestBook.xlsx');
@@ -100,8 +100,8 @@ class ExcelTest extends \PHPUnit_Framework_TestCase {
         $XLSMapping = new YamlMappingManager('./tests/ExcelTest/TestBookMappings.yml');
         $XLSSetting = new YamlSettingManager('./tests/ExcelTest/TestBookMappings.yml');
         $XLSError = new ErrorManager();
-        $XLSParser = new Parser\Parser();
-        $XLSReader = new Reader\Reader();
+        $XLSParser = new Parser();
+        $XLSReader = new Reader();
 
 
         $XLSParser->setErrorManager($XLSError);
