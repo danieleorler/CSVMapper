@@ -13,43 +13,58 @@ namespace CSVMapper\Source;
  *
  * @author danorler
  */
-class CsvFile extends File
-{
+class CsvFile extends File {
+
     private $separator = null;
     private $columnsAllowed = null;
-    
-    public function getSeparator()
-    {
-        if(empty($this->separator))
-        {
+
+    public function getSeparator() {
+        if (empty($this->separator)) {
             return ";";
-        }
-        else
-        {
+        } else {
             return $this->separator;
         }
     }
 
-    public function setSeparator($separator)
-    {
+    public function setSeparator($separator) {
         $this->separator = $separator;
     }
-    
-    public function getColumnsAllowed()
-    {
-        if(empty($this->columnsAllowed))
-        {
+
+    public function getColumnsAllowed() {
+        if (empty($this->columnsAllowed)) {
             return FALSE;
-        }
-        else
-        {
+        } else {
             return $this->columnsAllowed;
         }
     }
 
-    public function setColumnsAllowed($columnsAllowed)
-    {
+    public function setColumnsAllowed($columnsAllowed) {
         $this->columnsAllowed = $columnsAllowed;
+    }
+
+    public function openFile($path) {
+        $handler = fopen($path, "r");
+        return $handler;
+    }
+
+    public function reset() {
+        if (!empty($this->handler)) {
+            fseek($this->handler, 0);
+        }
+    }
+
+    public function getFileColumns() {
+        $fileColumns = count(explode($this->getSeparator(), fgets($this->getHandler())));
+        return $fileColumns;
+    }
+
+    public function getRawRow() {
+        $rawRow = explode($this->getSeparator(), fgets($this->getHandler()));
+        return $rawRow;
+    }
+
+    public function hasRow() {
+        return !feof($this->getHandler());
     }
 
 }
