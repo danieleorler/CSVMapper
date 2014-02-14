@@ -123,13 +123,11 @@ class ExcelTest extends \PHPUnit_Framework_TestCase {
         $file->setColumnsAllowed(3);
         $file->setFolder('./tests/ExcelTest');
         $file->setName('TestBook.xlsx');
-        $file->open();
-
-        $this->assertFalse($file->getHandler() == null);
+        $file->getHandler();
 
         $file->close();
-        
-        $this->assertTrue($file->getHandler() == null);
+
+        $this->assertTrue($file->handler == null);
     }
 
 }

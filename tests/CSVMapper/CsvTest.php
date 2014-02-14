@@ -161,6 +161,16 @@ class CsvTest extends \PHPUnit_Framework_TestCase {
         $this->assertEquals($this->expected_table, $result);
     }
 
+    public function setCloseFile() {
+        $file = new CsvFile();
+        $file->setFolder('./tests/CsvTest');
+        $file->setName('temperatures.csv');
+        $file->open();
+        $this->assertFalse($file->getHandler() == null);
+        $file->close();
+        $this->assertTrue($file->getHandler() == null);
+    }
+
 //
 //	/**
 //    * @expectedException CSVMapper\Exception\WrongColumnsNumberException
@@ -270,7 +280,7 @@ class CsvTest extends \PHPUnit_Framework_TestCase {
         while ($CSVReader->hasNextRow()) {
             array_push($rows, $CSVReader->getNextRow());
         }
-       
+
         $this->assertEquals($this->expected_table, $rows);
     }
 

@@ -99,9 +99,9 @@ class ExcelFile extends File {
         $objPHPExcel = $this->getHandler();
         
         if (!empty($objPHPExcel)) {
-            unset($this->handler);
+            $objPHPExcel->disconnectWorksheets();
             unset($objPHPExcel);
-        
+            
         }
         $this->handler = null;
     }
