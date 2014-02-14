@@ -42,7 +42,7 @@ class CsvTest extends \PHPUnit_Framework_TestCase
     public function testCorrectMapping()
     {
         $file = new Source\CsvFile();
-        $file->setFolder('./tests');
+        $file->setFolder('./tests/CsvTest');
         $file->setName('temperatures.csv');
         $file->setSeparator(';');
         $file->setColumnsAllowed(3);
@@ -83,7 +83,7 @@ class CsvTest extends \PHPUnit_Framework_TestCase
     public function testCorrectMappingDefaultSeparator()
     {
         $file = new Source\CsvFile();
-        $file->setFolder('./tests');
+        $file->setFolder('./tests/CsvTest');
         $file->setName('temperatures.csv');
         $file->setColumnsAllowed(3);
 
@@ -123,7 +123,7 @@ class CsvTest extends \PHPUnit_Framework_TestCase
     public function testCorrectMappingNoColumnsNumberBound()
     {
         $file = new Source\CsvFile();
-        $file->setFolder('./tests');
+        $file->setFolder('./tests/CsvTest');
         $file->setName('temperatures.csv');
 
         $mapping = new MappingManager();
@@ -252,7 +252,7 @@ class CsvTest extends \PHPUnit_Framework_TestCase
 //
 //		$this->assertEquals($result,$this->expected_table);
 //    }
-//
+
 //    
 //    public function testRemoveQuotes()
 //    {

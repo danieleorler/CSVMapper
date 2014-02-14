@@ -64,7 +64,8 @@ class Reader
     
     public function hasNextRow()
     {
-        return !feof($this->file->getHandler());
+        $hasRow = $this->file->hasRow();
+        return $hasRow;
     }
     
     public function close()

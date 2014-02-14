@@ -1,0 +1,20 @@
+setting:
+    columns_allowed: 3
+    folder: ./tests/ExcelTest
+    filename: TestBook.xlsx
+
+mapping:
+    campo1:
+        key: 0
+        fn:  FALSE
+        test: FALSE
+        
+    campo2:
+        key: 1
+        fn:  FALSE
+        test: FALSE
+
+    campo3:
+        key: 2
+        fn:  FALSE
+        test: FALSE

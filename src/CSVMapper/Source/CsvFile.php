@@ -42,23 +42,29 @@ class CsvFile extends File {
         $this->columnsAllowed = $columnsAllowed;
     }
 
-    public function openFile($path)
-    {
+    public function openFile($path) {
         $handler = fopen($path, "r");
         return $handler;
     }
-    
-    public function getFileColumns()
-    {
-        $fileColumns = count(explode($this->getSeparator(),fgets($this->getHandler())));
+
+    public function reset() {
+        if (!empty($this->handler)) {
+            fseek($this->handler, 0);
+        }
+    }
+
+    public function getFileColumns() {
+        $fileColumns = count(explode($this->getSeparator(), fgets($this->getHandler())));
         return $fileColumns;
     }
-    
-    public function getRawRow()
-    {
+
+    public function getRawRow() {
         $rawRow = explode($this->getSeparator(), fgets($this->getHandler()));
         return $rawRow;
     }
-           
+
+    public function hasRow() {
+        return !feof($this->getHandler());
+    }
 
 }

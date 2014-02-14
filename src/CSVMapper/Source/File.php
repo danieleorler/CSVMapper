@@ -75,14 +75,7 @@ class File
         }
         $this->handler = null;
     }
-    
-    public function reset()
-    {
-        if(!empty($this->handler))
-        {
-            fseek($this->handler,0);
-        }
-    }
+   
     
     public function checkProperty($key)
     {

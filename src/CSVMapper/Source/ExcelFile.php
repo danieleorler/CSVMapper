@@ -11,14 +11,16 @@
  *
  * @author agottardi
  */
+
 namespace CSVMapper\Source;
 
 use PHPExcel_IOFactory;
+use PHPExcel_Cell;
 
 class ExcelFile extends File {
 
-   private $rowNumber = null;
-    
+    private $rowNumber = 1;
+
     public function getColumnsAllowed() {
         if (empty($this->columnsAllowed)) {
             return FALSE;
@@ -39,20 +41,62 @@ class ExcelFile extends File {
         $objReader = PHPExcel_IOFactory::createReader($inputFileType);
         /**  Load $inputFileName to a PHPExcel Object  * */
         $objPHPExcel = $objReader->load($inputFileName);
-        $$this->rowNumber = 0;
+        $this->rowNumber = 1;
         return $objPHPExcel;
     }
-    
-    public function getFileColumns()
-    {
-       $highestColumn = $this->getHandler()->getHighestColumn();
-       return $highestColumn;
+
+    public function getFileColumns() {
+        $objPHPExcel = $this->getHandler();
+        $objWorksheet = $objPHPExcel->setActiveSheetIndex(0);
+        $highestColumn = $objWorksheet->getHighestColumn();
+        $highestColumnIndex = PHPExcel_Cell::columnIndexFromString($highestColumn);
+        return $highestColumnIndex-1;
+    }
+
+    public function getRawRow() {
+
+        $values = array();
+        $objPHPExcel = $this->getHandler();
+        $objWorksheet = $objPHPExcel->setActiveSheetIndex(0);
+        $highestColumnIndex = $this->getFileColumns();
+
+        
+        for ($col = 0; $col <= $highestColumnIndex; $col++) {
+            
+            $cell = $objWorksheet->getCellByColumnAndRow($col, $this->rowNumber);
+            $cellValue = $cell->getValue();
+            
+            array_push($values, $cellValue);
+        }
+
+        $this->rowNumber++;
+        
+        return $values;
+    }
+
+    public function hasRow() {
+
+        $objPHPExcel = $this->getHandler();
+        $objWorksheet = $objPHPExcel->setActiveSheetIndex(0);
+
+        $highestRow = $objWorksheet->getHighestRow(); // e.g 'F'
+                
+        if ($highestRow == 1 && $objWorksheet->getCellByColumnAndRow(0, 1)->getValue() == null) {
+            return false;
+        } else if ($highestRow >= $this->rowNumber) {
+            return true;
+        } else if ($highestRow < $this->rowNumber) {
+            return false;
+        }
+    }
+
+    public function reset() {
+        $this->rowNumber = 1;
     }
     
-    public function getRawRow()
+    public function getHighestColumnIndex()
     {
-        $excelFile = $this->file;
         
     }
-    
+
 }
