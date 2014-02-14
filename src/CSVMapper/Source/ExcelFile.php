@@ -50,7 +50,7 @@ class ExcelFile extends File {
         $objWorksheet = $objPHPExcel->setActiveSheetIndex(0);
         $highestColumn = $objWorksheet->getHighestColumn();
         $highestColumnIndex = PHPExcel_Cell::columnIndexFromString($highestColumn);
-        return $highestColumnIndex-1;
+        return $highestColumnIndex;
     }
 
     public function getRawRow() {
@@ -61,7 +61,7 @@ class ExcelFile extends File {
         $highestColumnIndex = $this->getFileColumns();
 
         
-        for ($col = 0; $col <= $highestColumnIndex; $col++) {
+        for ($col = 0; $col <= $highestColumnIndex-1; $col++) {
             
             $cell = $objWorksheet->getCellByColumnAndRow($col, $this->rowNumber);
             $cellValue = $cell->getValue();

@@ -86,7 +86,7 @@ class ExcelTest extends \PHPUnit_Framework_TestCase {
         $rows = array();
 
         $XLSFile = new ExcelFile;
-        $XLSFile->setColumnsAllowed(0);
+        $XLSFile->setColumnsAllowed(3);
         $XLSFile->setFolder('./tests/ExcelTest');
         $XLSFile->setName('TestBook.xlsx');
 
@@ -128,6 +128,110 @@ class ExcelTest extends \PHPUnit_Framework_TestCase {
         $file->close();
 
         $this->assertTrue($file->handler == null);
+    }
+
+    public function testReaderGetParser() {
+
+        $XLSFile = new ExcelFile;
+        $XLSFile->setColumnsAllowed(3);
+        $XLSFile->setFolder('./tests/ExcelTest');
+        $XLSFile->setName('TestBook.xlsx');
+
+        $XLSMapping = new YamlMappingManager('./tests/ExcelTest/TestBookMappings.yml');
+        $XLSSetting = new YamlSettingManager('./tests/ExcelTest/TestBookMappings.yml');
+        $XLSError = new ErrorManager();
+        $XLSParser = new Parser();
+        $XLSReader = new Reader();
+
+
+        $XLSParser->setErrorManager($XLSError);
+        $XLSParser->setMappingManager($XLSMapping);
+
+        $XLSReader->setFile($XLSFile);
+        $XLSReader->setParser($XLSParser);
+
+        $parser = $XLSReader->getParser();
+        $this->assertTrue($parser == $XLSParser);
+    }
+
+    public function testReaderGetFile() {
+
+        $XLSFile = new ExcelFile;
+        $XLSFile->setColumnsAllowed(3);
+        $XLSFile->setFolder('./tests/ExcelTest');
+        $XLSFile->setName('TestBook.xlsx');
+
+        $XLSMapping = new YamlMappingManager('./tests/ExcelTest/TestBookMappings.yml');
+        $XLSSetting = new YamlSettingManager('./tests/ExcelTest/TestBookMappings.yml');
+        $XLSError = new ErrorManager();
+        $XLSParser = new Parser();
+        $XLSReader = new Reader();
+
+
+        $XLSParser->setErrorManager($XLSError);
+        $XLSParser->setMappingManager($XLSMapping);
+
+        $XLSReader->setFile($XLSFile);
+        $XLSReader->setParser($XLSParser);
+
+        $file = $XLSReader->getFile();
+        $this->assertTrue($file == $XLSFile);
+    }
+
+    /**
+     * @expectedException CSVMapper\Exception\WrongColumnsNumberException
+     */
+    public function testTooManyColumnsAllowed() {
+        $XLSFile = new ExcelFile;
+        $XLSFile->setColumnsAllowed(4);
+        $XLSFile->setFolder('./tests/ExcelTest');
+        $XLSFile->setName('TestBook.xlsx');
+
+        $XLSMapping = new YamlMappingManager('./tests/ExcelTest/TestBookMappings.yml');
+        $XLSSetting = new YamlSettingManager('./tests/ExcelTest/TestBookMappings.yml');
+        $XLSError = new ErrorManager();
+        $XLSParser = new Parser();
+        $XLSReader = new Reader();
+        
+        
+        $XLSParser->setErrorManager($XLSError);
+        $XLSParser->setMappingManager($XLSMapping);
+
+        $XLSReader->setFile($XLSFile);
+        $XLSReader->setParser($XLSParser);
+    }
+    
+    public function testReaderCloseFile() {
+        $rows = array();
+
+        $XLSFile = new ExcelFile;
+        $XLSFile->setColumnsAllowed(3);
+        $XLSFile->setFolder('./tests/ExcelTest');
+        $XLSFile->setName('TestBook.xlsx');
+
+//        $XLSMapping = new MappingManager();
+//
+//        $XLSMapping->set_mapping("campo1", array('key' => 0, 'fn' => FALSE, 'test' => FALSE));
+//        $XLSMapping->set_mapping("campo2", array('key' => 1, 'fn' => FALSE, 'test' => FALSE));
+//        $XLSMapping->set_mapping("campo3", array('key' => 2, 'fn' => FALSE, 'test' => FALSE));
+
+        $XLSMapping = new YamlMappingManager('./tests/ExcelTest/TestBookMappings.yml');
+        $XLSSetting = new YamlSettingManager('./tests/ExcelTest/TestBookMappings.yml');
+        $XLSError = new ErrorManager();
+        $XLSParser = new Parser();
+        $XLSReader = new Reader();
+
+
+        $XLSParser->setErrorManager($XLSError);
+        $XLSParser->setMappingManager($XLSMapping);
+
+        $XLSReader->setFile($XLSFile);
+        $XLSReader->setParser($XLSParser);
+
+        $XLSReader->close();
+
+
+        $this->assertTrue($XLSFile->handler == null);
     }
 
 }
