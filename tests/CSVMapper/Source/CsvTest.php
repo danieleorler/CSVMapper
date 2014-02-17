@@ -258,7 +258,7 @@ class CsvTest extends \PHPUnit_Framework_TestCase {
     }
 
     /**
-     * @expectedException CSVMapper\Exception\ConfigurationMissingExcepion
+     * @expectedException CSVMapper\Exception\ConfigurationMissingException
      */
     public function testMissingConfiguration() {
 
@@ -371,7 +371,7 @@ class CsvTest extends \PHPUnit_Framework_TestCase {
 //	}
 //
 //	/**
-//    * @expectedException CSVMapper\Exception\ConfigurationMissingExcepion
+//    * @expectedException CSVMapper\Exception\ConfigurationMissingException
 //    */
 //	public function testConfigException()
 //	{
@@ -386,7 +386,7 @@ class CsvTest extends \PHPUnit_Framework_TestCase {
 //	}
 //
 //	/**
-//    * @expectedException CSVMapper\Exception\ConfigurationMissingExcepion
+//    * @expectedException CSVMapper\Exception\ConfigurationMissingException
 //    */
 //	public function testConfigException2()
 //	{

@@ -209,7 +209,7 @@ class ExcelTest extends \PHPUnit_Framework_TestCase {
     }
 
     /**
-     * @expectedException CSVMapper\Exception\ConfigurationMissingExcepion
+     * @expectedException CSVMapper\Exception\ConfigurationMissingException
      */
     public function testMissingConfiguration() {
         $XLSFile = new ExcelFile;

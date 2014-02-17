@@ -2,7 +2,7 @@
 
 namespace CSVMapper\Exception;
 
-class ConfigurationMissingExcepion extends \Exception
+class ConfigurationMissingException extends \Exception
 {
 
     public function __construct($message, $code = 0, Exception $previous = null)

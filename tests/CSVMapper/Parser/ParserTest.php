@@ -13,9 +13,6 @@ namespace CSVMapper\Parser;
  *
  * @author agottardi
  */
-use CSVMapper\Configuration\MappingManager;
-use CSVMapper\Exception\ConfigurationMissingExcepion;
-use CSVMapper\Exception\PropertyMissingException;
 use CSVMapper\Configuration\ErrorManager;
 use CSVMapper\Configuration\Yaml\YamlMappingManager;
 use CSVMapper\Configuration\Yaml\YamlSettingManager;

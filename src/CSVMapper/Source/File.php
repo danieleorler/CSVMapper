@@ -9,7 +9,7 @@
 namespace CSVMapper\Source;
 
 use CSVMapper\Exception\PropertyMissingException;
-use CSVMapper\Exception\ConfigurationMissingExcepion;
+use CSVMapper\Exception\ConfigurationMissingException;
 
 /**
  * Description of File
@@ -70,7 +70,7 @@ class File {
             throw new PropertyMissingException(sprintf("Property %s of Class File is missing!", $key), 2);
         }
         if (empty($this->{$key})) {
-            throw new ConfigurationMissingExcepion(sprintf("Configuration %s is missing!", $key), 2);
+            throw new ConfigurationMissingException(sprintf("Configuration %s is missing!", $key), 2);
         }
     }
 
