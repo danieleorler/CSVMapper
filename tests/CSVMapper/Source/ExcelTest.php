@@ -245,6 +245,29 @@ class ExcelTest extends \PHPUnit_Framework_TestCase {
         $XLSFile = new ExcelFile;
         $this->assertFalse($XLSFile->getColumnsAllowed());
     }
+    
+    public function testCheckHandlerIfSet()
+    {
+        
+        $file = new ExcelFile();
+        $file->setColumnsAllowed(3);
+        $file->setFolder('./tests/ExcelTest');
+        $file->setName('TestBook.xlsx');
+        $file->open();
+
+        $this->assertFalse($file->checkHandler() == null);      
+    }
+    
+        public function testCheckHandlerIfNotSet()
+    {
+        
+        $file = new ExcelFile();
+        $file->setColumnsAllowed(3);
+        $file->setFolder('./tests/ExcelTest');
+        $file->setName('TestBook.xlsx');
+
+        $this->assertTrue($file->checkHandler() == null);      
+    }
 
 
 
