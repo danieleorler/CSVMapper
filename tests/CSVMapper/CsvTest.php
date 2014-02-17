@@ -180,9 +180,6 @@ class CsvTest extends \PHPUnit_Framework_TestCase {
         $CSV->setFolder('./tests/CsvTest');
         $CSV->setName('temperatures.csv');
 
-
-//------- deleting settings (if any) in order to overwrite them
-
         $setting = new Yaml\YamlSettingManager('./tests/CsvTest/tempMappings.yml');
         $mapping = new Yaml\YamlMappingManager('./tests/CsvTest/tempMappings.yml');
 
@@ -197,9 +194,6 @@ class CsvTest extends \PHPUnit_Framework_TestCase {
         $CSVReader->setFile($CSV);
         $CSVReader->setParser($CSVParser);
 
-
-//------- loop through rows of CSV file
-
         while ($CSVReader->hasNextRow()) {
             array_push($rows, $CSVReader->getNextRow());
         }
@@ -212,12 +206,9 @@ class CsvTest extends \PHPUnit_Framework_TestCase {
         $CSVParser = new Parser();
         $CSVReader = new Reader();
 
-
         $CSV->setFolder('./tests/CsvTest');
         $CSV->setName('temperatures.csv');
         $CSV->setPath('./tests/CsvTest/temperatures.csv');
-
-//------- deleting settings (if any) in order to overwrite them
 
         $setting = new Yaml\YamlSettingManager('./tests/CsvTest/tempMappings.yml');
         $mapping = new Yaml\YamlMappingManager('./tests/CsvTest/tempMappings.yml');
@@ -241,6 +232,8 @@ class CsvTest extends \PHPUnit_Framework_TestCase {
      */
     public function testMissingProperty() {
 
+        // it works because this code tries to retrieve a property (fakeproperty) not available
+
         $CSV = new CsvFile();
         $CSVParser = new Parser();
         $CSVReader = new Reader();
@@ -263,11 +256,13 @@ class CsvTest extends \PHPUnit_Framework_TestCase {
 
         $CSV->checkProperty('fakeProperty');
     }
-    
-        /**
+
+    /**
      * @expectedException CSVMapper\Exception\ConfigurationMissingExcepion
      */
     public function testMissingConfiguration() {
+
+        // it works because this code doesn't set folder and name parameters
 
         $CSV = new CsvFile();
         $CSVParser = new Parser();
@@ -288,6 +283,71 @@ class CsvTest extends \PHPUnit_Framework_TestCase {
         $CSVReader->setParser($CSVParser);
 
         $CSV->checkProperty('fakeProperty');
+    }
+
+    public function testGetPathWithNoParametersSet() {
+        $CSV = new CsvFile;
+        $CSV->setColumnsAllowed(3);
+
+        $this->assertNull($CSV->getPath());
+    }
+
+    public function testGetColumnsAllowedWithNoParametersSet() {
+        $CSV = new CsvFile;
+
+        $this->assertFalse($CSV->getColumnsAllowed());
+    }
+
+    public function testParserMappingManager() {
+        $CSV = new CsvFile();
+        $CSVParser = new Parser();
+        $CSVReader = new Reader();
+
+        $CSV->setFolder('./tests/CsvTest');
+        $CSV->setName('temperatures.csv');
+        $CSV->setPath('./tests/CsvTest/temperatures.csv');
+
+        $setting = new Yaml\YamlSettingManager('./tests/CsvTest/tempMappings.yml');
+        $mapping = new Yaml\YamlMappingManager('./tests/CsvTest/tempMappings.yml');
+
+        $CSV->setSeparator($setting->get_setting('separator'));
+        $CSV->setColumnsAllowed($setting->get_setting('columns_allowed'));
+        $CSV->setFolder($setting->get_setting('folder'));
+        $CSV->setName($setting->get_setting('filename'));
+
+        $CSVParser->setErrorManager(new ErrorManager());
+        $CSVParser->setMappingManager($mapping);
+
+        $CSVReader->setFile($CSV);
+        $CSVReader->setParser($CSVParser);
+
+        $this->assertNotNull($CSVParser->getMappingManager());
+    }
+
+    public function testParserErrorManager() {
+        $CSV = new CsvFile();
+        $CSVParser = new Parser();
+        $CSVReader = new Reader();
+
+        $CSV->setFolder('./tests/CsvTest');
+        $CSV->setName('temperatures.csv');
+        $CSV->setPath('./tests/CsvTest/temperatures.csv');
+
+        $setting = new Yaml\YamlSettingManager('./tests/CsvTest/tempMappings.yml');
+        $mapping = new Yaml\YamlMappingManager('./tests/CsvTest/tempMappings.yml');
+
+        $CSV->setSeparator($setting->get_setting('separator'));
+        $CSV->setColumnsAllowed($setting->get_setting('columns_allowed'));
+        $CSV->setFolder($setting->get_setting('folder'));
+        $CSV->setName($setting->get_setting('filename'));
+
+        $CSVParser->setErrorManager(new ErrorManager());
+        $CSVParser->setMappingManager($mapping);
+
+        $CSVReader->setFile($CSV);
+        $CSVReader->setParser($CSVParser);
+
+        $this->assertNotNull($CSVParser->getErrorManager());
     }
 
 //

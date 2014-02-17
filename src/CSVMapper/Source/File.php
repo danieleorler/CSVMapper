@@ -73,5 +73,15 @@ class File {
             throw new ConfigurationMissingExcepion(sprintf("Configuration %s is missing!", $key), 2);
         }
     }
+    
+    public function close()
+    {
+        
+    }
+    
+    public function reset()
+    {
+        
+    }
 
 }

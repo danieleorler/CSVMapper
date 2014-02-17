@@ -20,7 +20,8 @@ use PHPExcel_Cell;
 class ExcelFile extends File {
 
     private $rowNumber = 1;
-
+    private $columnsAllowed = null;
+    
     public function getColumnsAllowed() {
         if (empty($this->columnsAllowed)) {
             return FALSE;

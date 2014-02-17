@@ -8,11 +8,16 @@
 
 namespace CSVMapper;
 
+
 /**
  * This class can parse Excel files (in many formats such as xls, xlsx..)
  *
  * @author agottardi
  */
+
+use CSVMapper\Configuration\MappingManager;
+use CSVMapper\Exception\ConfigurationMissingExcepion;
+use CSVMapper\Exception\PropertyMissingException;
 use CSVMapper\Configuration\ErrorManager;
 use CSVMapper\Configuration\Yaml\YamlMappingManager;
 use CSVMapper\Configuration\Yaml\YamlSettingManager;
@@ -307,6 +312,101 @@ class ExcelTest extends \PHPUnit_Framework_TestCase {
         $XLSReader->setParser($XLSParser);
 
         $XLSFile->checkProperty('fakeProperty');
+
+        $XLSReader->close();
+    }
+
+    public function testGetPathWithNoParametersSet() {
+        $XLSFile = new ExcelFile;
+        $XLSFile->setColumnsAllowed(3);
+
+        $this->assertNull($XLSFile->getPath());
+    }
+
+    public function testGetColumnsAllowedWithNoParametersSet() {
+        $XLSFile = new ExcelFile;
+        $this->assertFalse($XLSFile->getColumnsAllowed());
+    }
+
+    public function testGetParserMappingManager() {
+
+        $XLSFile = new ExcelFile;
+        $XLSFile->setColumnsAllowed(3);
+        $XLSFile->setFolder('./tests/ExcelTest');
+        $XLSFile->setName('TestBook.xlsx');
+        $XLSFile->setPath('./tests/ExcelTest/TestBook.xlsx');
+
+
+        $XLSMapping = new YamlMappingManager('./tests/ExcelTest/TestBookMappings.yml');
+        $XLSError = new ErrorManager();
+        $XLSParser = new Parser();
+        $XLSReader = new Reader();
+
+
+        $XLSParser->setErrorManager($XLSError);
+        $XLSParser->setMappingManager($XLSMapping);
+
+        $XLSReader->setFile($XLSFile);
+        $XLSReader->setParser($XLSParser);
+
+        $this->assertNotNull($XLSParser->getMappingManager());
+    }
+
+    public function testGetParserErrorManager() {
+
+        $XLSFile = new ExcelFile;
+        $XLSFile->setColumnsAllowed(3);
+        $XLSFile->setFolder('./tests/ExcelTest');
+        $XLSFile->setName('TestBook.xlsx');
+        $XLSFile->setPath('./tests/ExcelTest/TestBook.xlsx');
+
+
+        $XLSMapping = new YamlMappingManager('./tests/ExcelTest/TestBookMappings.yml');
+        $XLSError = new ErrorManager();
+        $XLSParser = new Parser();
+        $XLSReader = new Reader();
+
+
+        $XLSParser->setErrorManager($XLSError);
+        $XLSParser->setMappingManager($XLSMapping);
+
+        $XLSReader->setFile($XLSFile);
+        $XLSReader->setParser($XLSParser);
+
+        $this->assertNotNull($XLSParser->getErrorManager());
+    }
+
+    public function testTestNotPassed() {
+
+        $rows = array();
+
+        $XLSFile = new ExcelFile();
+        $XLSFile->setColumnsAllowed(3);
+        $XLSFile->setFolder('./tests/ExcelTest');
+        $XLSFile->setName('TestBook.xlsx');
+
+        $XLSMapping = new MappingManager();
+
+        $XLSMapping->set_mapping("\"campo1\"", array('key' => 0, 'fn' => FALSE, 'test' => FALSE));
+        $XLSMapping->set_mapping("campo2", array('key' => 1, 'fn' => FALSE, 'test' => create_function('$input', 'return ($input<3);')));
+        $XLSMapping->set_mapping("campo3", array('key' => 2, 'fn' => FALSE, 'test' => FALSE));
+
+
+        $XLSSetting = new YamlSettingManager('./tests/ExcelTest/TestBookMappings.yml');
+        $XLSError = new ErrorManager();
+        $XLSParser = new Parser();
+        $XLSReader = new Reader();
+
+
+        $XLSParser->setErrorManager($XLSError);
+        $XLSParser->setMappingManager($XLSMapping);
+
+        $XLSReader->setFile($XLSFile);
+        $XLSReader->setParser($XLSParser);
+
+        while ($XLSFile->hasRow()) {
+            $rows = $XLSFile->getRawRow();
+        }
 
         $XLSReader->close();
     }
