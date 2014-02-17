@@ -6,7 +6,7 @@ class SettingManager
 {
 	private $settings;
 
-	function __contruct()
+	function __construct()
 	{
 		$this->settings = array();
 	}

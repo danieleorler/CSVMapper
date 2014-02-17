@@ -10,72 +10,68 @@ namespace CSVMapper\Source;
 
 use CSVMapper\Exception\PropertyMissingException;
 use CSVMapper\Exception\ConfigurationMissingExcepion;
+
 /**
  * Description of File
  *
  * @author danorler
  */
-class File
-{
+class File {
+
     private $folder = null;
     private $name = null;
     private $path = null;
     private $handler = null;
-    
-    public function getFolder()
-    {
+
+    public function getFolder() {
         return $this->folder;
     }
 
-    public function getName()
-    {
+    public function getName() {
         return $this->name;
     }
 
-    public function getPath()
-    {
-        return sprintf("%s/%s",$this->getFolder(),$this->getName());
+    public function getPath() {
+        if ($this->path != null) {
+            return $this->path;
+        } else if ($this->folder != null && $this->name != null) {
+            return sprintf("%s/%s", $this->getFolder(), $this->getName());
+        } else {
+            return null;
+        }
     }
 
-    public function setFolder($folder)
-    {
+    public function setFolder($folder) {
         $this->folder = $folder;
     }
 
-    public function setName($name)
-    {
+    public function setName($name) {
         $this->name = $name;
     }
 
-    public function setPath($path)
-    {
+    public function setPath($path) {
         $this->path = $path;
     }
-    
-    public function open()
-    {
+
+    public function open() {
         $this->handler = $this->openFile($this->getPath());
         return $this->handler;
     }
 
-    public function getHandler()
-    {
-        if(empty($this->handler))
-        {
+    public function getHandler() {
+        if (empty($this->handler)) {
             $this->open();
         }
         return $this->handler;
     }
-    
-    public function checkProperty($key)
-    {
-        if(!property_exists($this, $key))
-        {
-            throw new PropertyMissingException(sprintf("Property %s of Class File is missing!",$key), 2);
+
+    public function checkProperty($key) {
+        if (!property_exists($this, $key)) {
+            throw new PropertyMissingException(sprintf("Property %s of Class File is missing!", $key), 2);
         }
-        if(empty($this->{$key}))
-        {
-            throw new ConfigurationMissingExcepion(sprintf("Configuration %s is missing!",$key), 2);
+        if (empty($this->{$key})) {
+            throw new ConfigurationMissingExcepion(sprintf("Configuration %s is missing!", $key), 2);
         }
     }
+
 }

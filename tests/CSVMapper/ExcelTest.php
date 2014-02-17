@@ -34,7 +34,7 @@ class ExcelTest extends \PHPUnit_Framework_TestCase {
     );
 
     public function testCorrectHandler() {
-        $file = new ExcelFile;
+        $file = new ExcelFile();
         $file->setColumnsAllowed(3);
         $file->setFolder('./tests/ExcelTest');
         $file->setName('TestBook.xlsx');
@@ -44,7 +44,7 @@ class ExcelTest extends \PHPUnit_Framework_TestCase {
     }
 
     public function testHasRowWithAvailableRows() {
-        $file = new ExcelFile;
+        $file = new ExcelFile();
         $file->setColumnsAllowed(3);
         $file->setFolder('./tests/ExcelTest');
         $file->setName('TestBook.xlsx');
@@ -55,7 +55,7 @@ class ExcelTest extends \PHPUnit_Framework_TestCase {
     }
 
     public function testHasRowWithNoRows() {
-        $file = new ExcelFile;
+        $file = new ExcelFile();
         $file->setColumnsAllowed(0);
         $file->setFolder('./tests/ExcelTest');
         $file->setName('TestBookEmpty.xlsx');
@@ -69,7 +69,7 @@ class ExcelTest extends \PHPUnit_Framework_TestCase {
 
         $array = array();
 
-        $file = new ExcelFile;
+        $file = new ExcelFile();
         $file->setColumnsAllowed(0);
         $file->setFolder('./tests/ExcelTest');
         $file->setName('TestBook.xlsx');
@@ -85,7 +85,7 @@ class ExcelTest extends \PHPUnit_Framework_TestCase {
     public function testCorrectMapping() {
         $rows = array();
 
-        $XLSFile = new ExcelFile;
+        $XLSFile = new ExcelFile();
         $XLSFile->setColumnsAllowed(3);
         $XLSFile->setFolder('./tests/ExcelTest');
         $XLSFile->setName('TestBook.xlsx');
@@ -119,7 +119,7 @@ class ExcelTest extends \PHPUnit_Framework_TestCase {
 
     public function testCloseFile() {
 
-        $file = new ExcelFile;
+        $file = new ExcelFile();
         $file->setColumnsAllowed(3);
         $file->setFolder('./tests/ExcelTest');
         $file->setName('TestBook.xlsx');
@@ -132,7 +132,7 @@ class ExcelTest extends \PHPUnit_Framework_TestCase {
 
     public function testReaderGetParser() {
 
-        $XLSFile = new ExcelFile;
+        $XLSFile = new ExcelFile();
         $XLSFile->setColumnsAllowed(3);
         $XLSFile->setFolder('./tests/ExcelTest');
         $XLSFile->setName('TestBook.xlsx');
@@ -156,7 +156,7 @@ class ExcelTest extends \PHPUnit_Framework_TestCase {
 
     public function testReaderGetFile() {
 
-        $XLSFile = new ExcelFile;
+        $XLSFile = new ExcelFile();
         $XLSFile->setColumnsAllowed(3);
         $XLSFile->setFolder('./tests/ExcelTest');
         $XLSFile->setName('TestBook.xlsx');
@@ -182,7 +182,7 @@ class ExcelTest extends \PHPUnit_Framework_TestCase {
      * @expectedException CSVMapper\Exception\WrongColumnsNumberException
      */
     public function testTooManyColumnsAllowed() {
-        $XLSFile = new ExcelFile;
+        $XLSFile = new ExcelFile();
         $XLSFile->setColumnsAllowed(4);
         $XLSFile->setFolder('./tests/ExcelTest');
         $XLSFile->setName('TestBook.xlsx');
@@ -192,19 +192,19 @@ class ExcelTest extends \PHPUnit_Framework_TestCase {
         $XLSError = new ErrorManager();
         $XLSParser = new Parser();
         $XLSReader = new Reader();
-        
-        
+
+
         $XLSParser->setErrorManager($XLSError);
         $XLSParser->setMappingManager($XLSMapping);
 
         $XLSReader->setFile($XLSFile);
         $XLSReader->setParser($XLSParser);
     }
-    
+
     public function testReaderCloseFile() {
         $rows = array();
 
-        $XLSFile = new ExcelFile;
+        $XLSFile = new ExcelFile();
         $XLSFile->setColumnsAllowed(3);
         $XLSFile->setFolder('./tests/ExcelTest');
         $XLSFile->setName('TestBook.xlsx');
@@ -232,6 +232,83 @@ class ExcelTest extends \PHPUnit_Framework_TestCase {
 
 
         $this->assertTrue($XLSFile->handler == null);
+    }
+
+    public function testSetPath() {
+
+        $XLSFile = new ExcelFile;
+        $XLSFile->setColumnsAllowed(3);
+        $XLSFile->setFolder('./tests/ExcelTest');
+        $XLSFile->setName('TestBook.xlsx');
+        $XLSFile->setPath('./tests/ExcelTest/TestBook.xlsx');
+
+
+        $XLSMapping = new YamlMappingManager('./tests/ExcelTest/TestBookMappings.yml');
+        $XLSError = new ErrorManager();
+        $XLSParser = new Parser();
+        $XLSReader = new Reader();
+
+
+        $XLSParser->setErrorManager($XLSError);
+        $XLSParser->setMappingManager($XLSMapping);
+
+        $XLSReader->setFile($XLSFile);
+        $XLSReader->setParser($XLSParser);
+
+        $this->assertNotNull($XLSFile->getPath());
+    }
+
+    /**
+     * @expectedException CSVMapper\Exception\PropertyMissingException
+     */
+    public function testMissingProperty() {
+        $XLSFile = new ExcelFile;
+        $XLSFile->setColumnsAllowed(3);
+        $XLSFile->setFolder('./tests/ExcelTest');
+        $XLSFile->setName('TestBook.xlsx');
+
+        $XLSMapping = new YamlMappingManager('./tests/ExcelTest/TestBookMappings.yml');
+        $XLSSetting = new YamlSettingManager('./tests/ExcelTest/TestBookMappings.yml');
+        $XLSError = new ErrorManager();
+        $XLSParser = new Parser();
+        $XLSReader = new Reader();
+
+
+        $XLSParser->setErrorManager($XLSError);
+        $XLSParser->setMappingManager($XLSMapping);
+
+        $XLSReader->setFile($XLSFile);
+        $XLSReader->setParser($XLSParser);
+
+        $XLSFile->checkProperty('fakeProperty');
+
+        $XLSReader->close();
+    }
+
+    /**
+     * @expectedException CSVMapper\Exception\ConfigurationMissingExcepion
+     */
+    public function testMissingConfiguration() {
+        $XLSFile = new ExcelFile;
+        $XLSFile->setColumnsAllowed(3);
+        $XLSFile->setPath('./tests/ExcelTest/TestBook.xlsx');
+
+        $XLSMapping = new YamlMappingManager('./tests/ExcelTest/TestBookMappings.yml');
+        $XLSSetting = new YamlSettingManager('./tests/ExcelTest/TestBookMappings.yml');
+        $XLSError = new ErrorManager();
+        $XLSParser = new Parser();
+        $XLSReader = new Reader();
+
+
+        $XLSParser->setErrorManager($XLSError);
+        $XLSParser->setMappingManager($XLSMapping);
+
+        $XLSReader->setFile($XLSFile);
+        $XLSReader->setParser($XLSParser);
+
+        $XLSFile->checkProperty('fakeProperty');
+
+        $XLSReader->close();
     }
 
 }
