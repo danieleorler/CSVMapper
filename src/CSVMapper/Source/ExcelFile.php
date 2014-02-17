@@ -86,9 +86,10 @@ class ExcelFile extends File {
             return false;
         } else if ($highestRow >= $this->rowNumber) {
             return true;
-        } else if ($highestRow < $this->rowNumber) {
-            return false;
         }
+            
+        return false;
+        
     }
 
     public function reset() {

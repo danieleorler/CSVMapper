@@ -73,15 +73,21 @@ class File {
             throw new ConfigurationMissingExcepion(sprintf("Configuration %s is missing!", $key), 2);
         }
     }
-    
-    public function close()
-    {
-        
+
+    public function checkHandler() {
+        if (empty($this->handler)) {
+            return false;
+        } else {
+            return true;
+        }
     }
-    
-    public function reset()
-    {
-        
+
+    public function close() {
+        return false;
+    }
+
+    public function reset() {
+        return true;
     }
 
 }
