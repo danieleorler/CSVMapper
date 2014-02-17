@@ -134,7 +134,7 @@ class ParserTest extends \PHPUnit_Framework_TestCase {
             
             if ($row != $newrow)
             {
-                return false;
+                $result = false;
             }
         }
 
