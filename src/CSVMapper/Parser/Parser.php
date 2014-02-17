@@ -77,7 +77,7 @@ class Parser
      * @param  String $input
      * @return String
      */
-    private function remove_quotes($input)
+    public function remove_quotes($input)
     {
         if(strlen($input) > 0)
         {

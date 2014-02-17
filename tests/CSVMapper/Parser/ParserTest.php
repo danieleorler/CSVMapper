@@ -96,8 +96,7 @@ class ParserTest extends \PHPUnit_Framework_TestCase {
         $XLSReader->setParser($XLSParser);
 
         while ($XLSReader->hasNextRow()) {
-            if($XLSReader->getNextRow() == false)
-            {
+            if ($XLSReader->getNextRow() == false) {
                 $result = false;
             }
         }
@@ -105,15 +104,14 @@ class ParserTest extends \PHPUnit_Framework_TestCase {
 
         $this->assertFalse($result);
     }
-    
-        public function testRemoveQuotes() {
-        $result = true;
+
+    public function testRemoveQuotes() {
 
         $XLSFile = new ExcelFile;
         $XLSFile->setColumnsAllowed(3);
         $XLSFile->setFolder('./tests/ExcelTest');
-        $XLSFile->setName('TestBook.xlsx');
-        $XLSFile->setPath('./tests/ExcelTest/TestBook.xlsx');
+        $XLSFile->setName('TestBookQuotes.xlsx');
+        $XLSFile->setPath('./tests/ExcelTest/TestBookQuotes.xlsx');
 
 
         $XLSMapping = new YamlMappingManager('./tests/ExcelTest/TestBookMappingsTest.yml');
@@ -128,18 +126,9 @@ class ParserTest extends \PHPUnit_Framework_TestCase {
         $XLSReader->setFile($XLSFile);
         $XLSReader->setParser($XLSParser);
 
-        while ($XLSReader->hasNextRow()) {
-            $row = $XLSFile->getRawRow();
-            $newrow = $XLSParser->parse($row);
-            
-            if ($row != $newrow)
-            {
-                $result = false;
-            }
-        }
+        $result = $XLSParser->remove_quotes("\"try\"");
 
-
-        $this->assertFalse($result);
+        $this->assertEquals($result, 'try');
     }
 
 }
