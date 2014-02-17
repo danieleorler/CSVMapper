@@ -8,13 +8,11 @@
 
 namespace CSVMapper;
 
-
 /**
  * This class can parse Excel files (in many formats such as xls, xlsx..)
  *
  * @author agottardi
  */
-
 use CSVMapper\Configuration\MappingManager;
 use CSVMapper\Exception\ConfigurationMissingExcepion;
 use CSVMapper\Exception\PropertyMissingException;
@@ -387,7 +385,7 @@ class ExcelTest extends \PHPUnit_Framework_TestCase {
 
         $XLSMapping = new MappingManager();
 
-        $XLSMapping->set_mapping("\"campo1\"", array('key' => 0, 'fn' => FALSE, 'test' => FALSE));
+        $XLSMapping->set_mapping("campo", array('key' => "0", 'fn' => FALSE, 'test' => FALSE));
         $XLSMapping->set_mapping("campo2", array('key' => 1, 'fn' => FALSE, 'test' => create_function('$input', 'return ($input<3);')));
         $XLSMapping->set_mapping("campo3", array('key' => 2, 'fn' => FALSE, 'test' => FALSE));
 
