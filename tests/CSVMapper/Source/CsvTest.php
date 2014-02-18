@@ -8,6 +8,8 @@ use CSVMapper\Configuration\Yaml;
 use CSVMapper\Parser\Parser;
 use CSVMapper\Reader\Reader;
 use CSVMapper\Source\CsvFile;
+use CSVMapper\Configuration\Yaml\YamlMappingManager;
+use CSVMapper\Configuration\Yaml\YamlSettingManager;
 
 class CsvTest extends \PHPUnit_Framework_TestCase {
 
@@ -171,39 +173,40 @@ class CsvTest extends \PHPUnit_Framework_TestCase {
         $this->assertFalse($file->checkHandler());
     }
 
-//    public function testYamlMapping() {
-//        $CSV = new CsvFile();
-//        $CSVParser = new Parser();
-//        $CSVReader = new Reader();
-//        $rows = array();
-//        $i =  0;
+    public function testYamlMapping() {
+        $rows = array();
+
+        $CSVFile = new CSVFile();
+        $CSVFile->setColumnsAllowed(3);
+        $CSVFile->setFolder('./tests/CsvTest');
+        $CSVFile->setName('temperatures.csv');
+
+//        $CSVMapping = new MappingManager();
 //
-//        $CSV->setFolder('./tests/CsvTest');
-//        $CSV->setName('temperatures.csv');
-//
-//        $setting = new Yaml\YamlSettingManager('./tests/CsvTest/tempMappings.yml');
-//        $mapping = new Yaml\YamlMappingManager('./tests/CsvTest/tempMappings.yml');
-//
-//        $CSV->setSeparator($setting->get_setting('separator'));
-//        $CSV->setColumnsAllowed($setting->get_setting('columns_allowed'));
-//        $CSV->setFolder($setting->get_setting('folder'));
-//        $CSV->setName($setting->get_setting('filename'));
-//
-//        $CSVParser->setErrorManager(new ErrorManager());
-//        $CSVParser->setMappingManager($mapping);
-//
-//        $CSVReader->setFile($CSV);
-//        $CSVReader->setParser($CSVParser);
-//
-//        while ($CSVReader->hasNextRow()) {
-//            echo "passo per la " . $i . " volta";
-//            array_push($rows, $CSVReader->getNextRow());
-//            $i++;
-//        }
-//        
-//        
-//        $this->assertEquals($this->expected_table, $rows);
-//    }
+//        $CSVMapping->set_mapping("campo1", array('key' => 0, 'fn' => FALSE, 'test' => FALSE));
+//        $CSVMapping->set_mapping("campo2", array('key' => 1, 'fn' => FALSE, 'test' => FALSE));
+//        $CSVMapping->set_mapping("campo3", array('key' => 2, 'fn' => FALSE, 'test' => FALSE));
+
+        $CSVMapping = new YamlMappingManager('./tests/CsvTest/tempMappings.yml');
+        $CSVSetting = new YamlSettingManager('./tests/CsvTest/tempMappings.yml');
+        $CSVError = new ErrorManager();
+        $CSVParser = new Parser();
+        $CSVReader = new Reader();
+
+
+        $CSVParser->setErrorManager($CSVError);
+        $CSVParser->setMappingManager($CSVMapping);
+
+        $CSVReader->setFile($CSVFile);
+        $CSVReader->setParser($CSVParser);
+
+        while ($CSVReader->hasNextRow()) {
+            array_push($rows, $CSVReader->getNextRow());
+        }
+
+
+        $this->assertEquals($this->expected_table, $rows);
+    }
 
     public function testSetPath() {
         $CSV = new CsvFile();

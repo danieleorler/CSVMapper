@@ -55,9 +55,9 @@ class CsvFile extends File {
     }
 
     public function reset() {
-        if (!empty($this->handler)) {
-            fseek($this->handler, 0);
-        }
+//        if (!empty($this->handler)) {
+//            fseek($this->handler, 0);
+//        }
     }
 
     public function getFileColumns() {
