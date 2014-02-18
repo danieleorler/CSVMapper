@@ -21,7 +21,7 @@ class File {
     private $folder = null;
     private $name = null;
     private $path = null;
-    private $handler = null;
+    protected $handler = null;
 
     public function getFolder() {
         return $this->folder;
