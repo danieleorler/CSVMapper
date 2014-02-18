@@ -20,7 +20,8 @@ use PHPExcel_Cell;
 class ExcelFile extends File {
 
     private $rowNumber = 1;
-
+    private $columnsAllowed = null;
+    
     public function getColumnsAllowed() {
         if (empty($this->columnsAllowed)) {
             return FALSE;
@@ -50,7 +51,7 @@ class ExcelFile extends File {
         $objWorksheet = $objPHPExcel->setActiveSheetIndex(0);
         $highestColumn = $objWorksheet->getHighestColumn();
         $highestColumnIndex = PHPExcel_Cell::columnIndexFromString($highestColumn);
-        return $highestColumnIndex-1;
+        return $highestColumnIndex;
     }
 
     public function getRawRow() {
@@ -61,7 +62,7 @@ class ExcelFile extends File {
         $highestColumnIndex = $this->getFileColumns();
 
         
-        for ($col = 0; $col <= $highestColumnIndex; $col++) {
+        for ($col = 0; $col <= $highestColumnIndex-1; $col++) {
             
             $cell = $objWorksheet->getCellByColumnAndRow($col, $this->rowNumber);
             $cellValue = $cell->getValue();
@@ -85,18 +86,26 @@ class ExcelFile extends File {
             return false;
         } else if ($highestRow >= $this->rowNumber) {
             return true;
-        } else if ($highestRow < $this->rowNumber) {
-            return false;
         }
+            
+        return false;
+        
     }
 
     public function reset() {
         $this->rowNumber = 1;
     }
     
-    public function getHighestColumnIndex()
-    {
+    public function close() {
         
+        $objPHPExcel = $this->getHandler();
+        
+        if (!empty($objPHPExcel)) {
+            $objPHPExcel->disconnectWorksheets();
+            unset($objPHPExcel);
+            
+        }
+        $this->handler = null;
     }
 
 }

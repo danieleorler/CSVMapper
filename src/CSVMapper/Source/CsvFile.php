@@ -47,10 +47,17 @@ class CsvFile extends File {
         return $handler;
     }
 
-    public function reset() {
+    public function close() {
         if (!empty($this->handler)) {
-            fseek($this->handler, 0);
+            fclose($this->handler);
         }
+        $this->handler = null;
+    }
+
+    public function reset() {
+//        if (!empty($this->handler)) {
+//            fseek($this->handler, 0);
+//        }
     }
 
     public function getFileColumns() {
