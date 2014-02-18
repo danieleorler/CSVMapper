@@ -16,7 +16,12 @@ class PropertyMissingExceptionTest extends \PHPUnit_Framework_TestCase {
      * @expectedException CSVMapper\Exception\PropertyMissingException
      */
     public function testPropertyMissing() {
-        $PME = new PropertyMissingException('Error ', 0 , null);
+        $PME = new PropertyMissingException('Error', 0 , null);
         throw $PME;
+    }
+    
+    public function testPropertyMissingtoString() {
+        $PME = new PropertyMissingException('Error', 0 , null);
+        $this->assertEquals("CSVMapper\Exception\PropertyMissingException: [0]: Error ", $PME->__toString());
     }
 }

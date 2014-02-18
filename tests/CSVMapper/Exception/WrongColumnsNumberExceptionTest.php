@@ -17,7 +17,13 @@ class WrongColumnsNumberExceptionTest extends \PHPUnit_Framework_TestCase {
      * @expectedException CSVMapper\Exception\WrongColumnsNumberException
      */
     public function testWrongColumnsNumber() {
-        $CME = new WrongColumnsNumberException('Error ', 0 , null);
+        $CME = new WrongColumnsNumberException('Error', 0 , null);
         throw $CME;
+    }
+    
+    
+    public function testWrongColumnsNumbertoString() {
+        $WCE = new WrongColumnsNumberException('Error', 0, null);
+        $this->assertEquals("CSVMapper\Exception\WrongColumnsNumberException: [0]: Error ", $WCE->__toString());
     }
 }
