@@ -100,7 +100,7 @@ class ReaderTest extends \PHPUnit_Framework_TestCase {
         $XLSReader->close();
 
 
-        $this->assertTrue($XLSFile->handler == null);
+        $this->assertFalse($XLSFile->checkHandler());
     }
 
 }

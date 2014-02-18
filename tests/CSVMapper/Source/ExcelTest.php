@@ -128,7 +128,7 @@ class ExcelTest extends \PHPUnit_Framework_TestCase {
 
         $file->close();
 
-        $this->assertTrue($file->handler == null);
+        $this->assertFalse($file->checkHandler());
     }
 
 
