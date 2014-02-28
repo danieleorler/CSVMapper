@@ -1,4 +1,5 @@
-imports:
-  - php
+inehrit: true
+
 tools:
-  - php_cpd: true
+  external_code_coverage:
+    timeout: 600

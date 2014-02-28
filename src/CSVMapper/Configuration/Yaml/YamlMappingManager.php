@@ -9,7 +9,7 @@ class YamlMappingManager extends MappingManager
 {
     public function __construct($filepath = FALSE)
     {
-        if($filepath)
+        if(!empty($filepath))
         {
             $config = Yaml::parse(file_get_contents($filepath));
             foreach($config['mapping'] AS $k=>$v)
