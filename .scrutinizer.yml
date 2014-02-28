@@ -1,0 +1,4 @@
+imports:
+  - php
+tools:
+  - php_cpd: true
