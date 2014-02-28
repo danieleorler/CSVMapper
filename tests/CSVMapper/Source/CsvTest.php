@@ -11,7 +11,8 @@ use CSVMapper\Source\CsvFile;
 use CSVMapper\Configuration\Yaml\YamlMappingManager;
 use CSVMapper\Configuration\Yaml\YamlSettingManager;
 
-class CsvTest extends \PHPUnit_Framework_TestCase {
+class CsvTest extends \PHPUnit_Framework_TestCase
+{
 
     private $expected_table;
 
@@ -19,7 +20,8 @@ class CsvTest extends \PHPUnit_Framework_TestCase {
      * set up the expected resultset
      */
 
-    protected function setUp() {
+    protected function setUp()
+    {
         $this->expected_table = array
             (
             array('month' => '01', 'year' => '2013', 'temperature' => 0.2, 'fixed_field' => 'default_value'),
@@ -41,7 +43,8 @@ class CsvTest extends \PHPUnit_Framework_TestCase {
      * test a correct mapping with columns number limit and explicit delimiter
      */
 
-    public function testCorrectMapping() {
+    public function testCorrectMapping()
+    {
         $file = new CsvFile();
         $file->setFolder('./tests/CsvTest');
         $file->setName('temperatures.csv');
@@ -53,9 +56,11 @@ class CsvTest extends \PHPUnit_Framework_TestCase {
         $parser = new Parser();
         $reader = new Reader();
 
-        $mapping->set_mapping("month", array('key' => 0, 'fn' => function($input) {
+        $mapping->set_mapping("month", array('key' => 0, 'fn' => function($input)
+    {
         return strlen($input) == 1 ? "0" . $input : $input;
-    }, 'test' => function($input) {
+    }, 'test' => function($input)
+    {
         return is_numeric($input);
     }));
         $mapping->set_mapping("year", array('key' => 1, 'fn' => FALSE, 'test' => FALSE));
@@ -70,9 +75,11 @@ class CsvTest extends \PHPUnit_Framework_TestCase {
 
         $result = array();
 
-        while ($reader->hasNextRow()) {
+        while ($reader->hasNextRow())
+        {
             $row = $reader->getNextRow();
-            if ($row !== FALSE) {
+            if ($row !== FALSE)
+            {
                 $result[] = $row;
             }
         }
@@ -84,7 +91,8 @@ class CsvTest extends \PHPUnit_Framework_TestCase {
      * test a correct mapping with columns number limit and default delimiter
      */
 
-    public function testCorrectMappingDefaultSeparator() {
+    public function testCorrectMappingDefaultSeparator()
+    {
         $file = new CsvFile();
         $file->setFolder('./tests/CsvTest');
         $file->setName('temperatures.csv');
@@ -95,11 +103,13 @@ class CsvTest extends \PHPUnit_Framework_TestCase {
         $parser = new Parser();
         $reader = new Reader();
 
-        $mapping->set_mapping("month", array('key' => 0, 'fn' => function($input) {
-        return strlen($input) == 1 ? "0" . $input : $input;
-    }, 'test' => function($input) {
-        return is_numeric($input);
-    }));
+        $mapping->set_mapping("month", array('key' => 0, 'fn' => function($input)
+        {
+            return strlen($input) == 1 ? "0" . $input : $input;
+        },'test' => function($input)
+        {
+            return is_numeric($input);
+        }));
         $mapping->set_mapping("year", array('key' => 1, 'fn' => FALSE, 'test' => FALSE));
         $mapping->set_mapping("temperature", array('key' => 2, 'fn' => create_function('$input', 'return floatval($input);'), 'test' => FALSE));
         $mapping->set_mapping("fixed_field", array('key' => NULL, 'value' => 'default_value', 'fn' => FALSE, 'test' => FALSE));
@@ -112,9 +122,11 @@ class CsvTest extends \PHPUnit_Framework_TestCase {
 
         $result = array();
 
-        while ($reader->hasNextRow()) {
+        while ($reader->hasNextRow())
+        {
             $row = $reader->getNextRow();
-            if ($row !== FALSE) {
+            if ($row !== FALSE)
+            {
                 $result[] = $row;
             }
         }
@@ -126,7 +138,8 @@ class CsvTest extends \PHPUnit_Framework_TestCase {
      * test a correct mapping without columns number limit and with default delimiter
      */
 
-    public function testCorrectMappingNoColumnsNumberBound() {
+    public function testCorrectMappingNoColumnsNumberBound()
+    {
         $file = new CsvFile();
         $file->setFolder('./tests/CsvTest');
         $file->setName('temperatures.csv');
@@ -137,10 +150,11 @@ class CsvTest extends \PHPUnit_Framework_TestCase {
         $reader = new Reader();
 
         $mapping->set_mapping("month", array('key' => 0, 'fn' => function($input) {
-        return strlen($input) == 1 ? "0" . $input : $input;
-    }, 'test' => function($input) {
-        return is_numeric($input);
-    }));
+            return strlen($input) == 1 ? "0" . $input : $input;
+        }, 'test' => function($input)
+        {
+            return is_numeric($input);
+        }));
         $mapping->set_mapping("year", array('key' => 1, 'fn' => FALSE, 'test' => FALSE));
         $mapping->set_mapping("temperature", array('key' => 2, 'fn' => create_function('$input', 'return floatval($input);'), 'test' => FALSE));
         $mapping->set_mapping("fixed_field", array('key' => NULL, 'value' => 'default_value', 'fn' => FALSE, 'test' => FALSE));
@@ -153,9 +167,11 @@ class CsvTest extends \PHPUnit_Framework_TestCase {
 
         $result = array();
 
-        while ($reader->hasNextRow()) {
+        while ($reader->hasNextRow())
+        {
             $row = $reader->getNextRow();
-            if ($row !== FALSE) {
+            if ($row !== FALSE)
+            {
                 $result[] = $row;
             }
         }
@@ -163,7 +179,8 @@ class CsvTest extends \PHPUnit_Framework_TestCase {
         $this->assertEquals($this->expected_table, $result);
     }
 
-    public function testCloseFile() {
+    public function testCloseFile()
+    {
         $file = new CsvFile();
         $file->setFolder('./tests/CsvTest');
         $file->setName('temperatures.csv');
@@ -173,7 +190,8 @@ class CsvTest extends \PHPUnit_Framework_TestCase {
         $this->assertFalse($file->checkHandler());
     }
 
-    public function testYamlMapping() {
+    public function testYamlMapping()
+    {
         $rows = array();
 
         $CSVFile = new CSVFile();
@@ -181,14 +199,8 @@ class CsvTest extends \PHPUnit_Framework_TestCase {
         $CSVFile->setFolder('./tests/CsvTest');
         $CSVFile->setName('temperatures.csv');
 
-//        $CSVMapping = new MappingManager();
-//
-//        $CSVMapping->set_mapping("campo1", array('key' => 0, 'fn' => FALSE, 'test' => FALSE));
-//        $CSVMapping->set_mapping("campo2", array('key' => 1, 'fn' => FALSE, 'test' => FALSE));
-//        $CSVMapping->set_mapping("campo3", array('key' => 2, 'fn' => FALSE, 'test' => FALSE));
-
         $CSVMapping = new YamlMappingManager('./tests/CsvTest/tempMappings.yml');
-        $CSVSetting = new YamlSettingManager('./tests/CsvTest/tempMappings.yml');
+
         $CSVError = new ErrorManager();
         $CSVParser = new Parser();
         $CSVReader = new Reader();
@@ -200,15 +212,20 @@ class CsvTest extends \PHPUnit_Framework_TestCase {
         $CSVReader->setFile($CSVFile);
         $CSVReader->setParser($CSVParser);
 
-        while ($CSVReader->hasNextRow()) {
-            array_push($rows, $CSVReader->getNextRow());
+        while ($CSVReader->hasNextRow())
+        {
+            $row = $CSVReader->getNextRow();
+            if(!empty($row))
+            {
+                array_push($rows, $row);
+            }
         }
-
 
         $this->assertEquals($this->expected_table, $rows);
     }
 
-    public function testSetPath() {
+    public function testSetPath()
+    {
         $CSV = new CsvFile();
         $CSVParser = new Parser();
         $CSVReader = new Reader();
@@ -237,7 +254,8 @@ class CsvTest extends \PHPUnit_Framework_TestCase {
     /**
      * @expectedException CSVMapper\Exception\PropertyMissingException
      */
-    public function testMissingProperty() {
+    public function testMissingProperty()
+    {
 
         // it works because this code tries to retrieve a property (fakeproperty) not available
 
@@ -267,7 +285,8 @@ class CsvTest extends \PHPUnit_Framework_TestCase {
     /**
      * @expectedException CSVMapper\Exception\ConfigurationMissingException
      */
-    public function testMissingConfiguration() {
+    public function testMissingConfiguration()
+    {
 
         // it works because this code doesn't set folder and name parameters
 
@@ -292,20 +311,23 @@ class CsvTest extends \PHPUnit_Framework_TestCase {
         $CSV->checkProperty('fakeProperty');
     }
 
-    public function testGetPathWithNoParametersSet() {
+    public function testGetPathWithNoParametersSet()
+    {
         $CSV = new CsvFile;
         $CSV->setColumnsAllowed(3);
 
         $this->assertNull($CSV->getPath());
     }
 
-    public function testGetColumnsAllowedWithNoParametersSet() {
+    public function testGetColumnsAllowedWithNoParametersSet()
+    {
         $CSV = new CsvFile;
 
         $this->assertFalse($CSV->getColumnsAllowed());
     }
 
-    public function testParserMappingManager() {
+    public function testParserMappingManager()
+    {
         $CSV = new CsvFile();
         $CSVParser = new Parser();
         $CSVReader = new Reader();
@@ -331,7 +353,8 @@ class CsvTest extends \PHPUnit_Framework_TestCase {
         $this->assertNotNull($CSVParser->getMappingManager());
     }
 
-    public function testParserErrorManager() {
+    public function testParserErrorManager()
+    {
         $CSV = new CsvFile();
         $CSVParser = new Parser();
         $CSVReader = new Reader();

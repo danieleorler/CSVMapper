@@ -13,64 +13,76 @@ namespace CSVMapper\Source;
  *
  * @author danorler
  */
-class CsvFile extends File {
+class CsvFile extends File
+{
+    /*
+     *  field delimiter
+     */
 
-    private $separator = null;
-    private $columnsAllowed = null;
-
-    public function getSeparator() {
-        if (empty($this->separator)) {
-            return ";";
-        } else {
-            return $this->separator;
-        }
+    private $separator = ';';
+    /*
+     * field enclosure character
+     */
+    private $enclosure = '"';
+ 
+    public function getSeparator()
+    {
+        return $this->separator;
     }
 
-    public function setSeparator($separator) {
+    public function setSeparator($separator)
+    {
         $this->separator = $separator;
     }
 
-    public function getColumnsAllowed() {
-        if (empty($this->columnsAllowed)) {
-            return FALSE;
-        } else {
-            return $this->columnsAllowed;
-        }
+    public function getEnclosure()
+    {
+        return $this->enclosure;
     }
 
-    public function setColumnsAllowed($columnsAllowed) {
-        $this->columnsAllowed = $columnsAllowed;
+    public function setEnclosure($enclosure)
+    {
+        $this->enclosure = $enclosure;
     }
 
-    public function openFile($path) {
+    public function openFile($path)
+    {
         $handler = fopen($path, "r");
         return $handler;
     }
 
-    public function close() {
-        if (!empty($this->handler)) {
+    public function close()
+    {
+        if (!empty($this->handler))
+        {
             fclose($this->handler);
         }
         $this->handler = null;
     }
 
-    public function reset() {
-//        if (!empty($this->handler)) {
-//            fseek($this->handler, 0);
-//        }
+    public function reset()
+    {
+        if (!empty($this->handler))
+        {
+            fseek($this->handler, 0);
+        }
     }
 
-    public function getFileColumns() {
-        $fileColumns = count(explode($this->getSeparator(), fgets($this->getHandler())));
+    public function getFileColumns()
+    {
+        $fileColumns = count(fgetcsv($this->getHandler(), 0, $this->getSeparator(), $this->getEnclosure()));
+        $this->reset();
         return $fileColumns;
     }
 
-    public function getRawRow() {
-        $rawRow = explode($this->getSeparator(), fgets($this->getHandler()));
+    public function getRawRow()
+    {
+        $rawRow = fgetcsv($this->getHandler(), 0, $this->getSeparator(), $this->getEnclosure());
         return $rawRow;
     }
 
-    public function hasRow() {
+    public function hasRow()
+    {
         return !feof($this->getHandler());
     }
 

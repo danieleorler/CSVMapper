@@ -16,78 +16,121 @@ use CSVMapper\Exception\ConfigurationMissingException;
  *
  * @author danorler
  */
-class File {
+class File
+{
 
     private $folder = null;
     private $name = null;
     private $path = null;
     protected $handler = null;
-
-    public function getFolder() {
+    private $columnsAllowed = null;
+    
+    public function getFolder()
+    {
         return $this->folder;
     }
 
-    public function getName() {
+    public function getName()
+    {
         return $this->name;
     }
 
-    public function getPath() {
-        if ($this->path != null) {
+    public function getPath()
+    {
+        if ($this->path != null)
+        {
             return $this->path;
-        } else if ($this->folder != null && $this->name != null) {
+        }
+        else if ($this->folder != null && $this->name != null)
+        {
             return sprintf("%s/%s", $this->getFolder(), $this->getName());
-        } else {
+        }
+        else
+        {
             return null;
         }
     }
 
-    public function setFolder($folder) {
+    public function setFolder($folder)
+    {
         $this->folder = $folder;
     }
 
-    public function setName($name) {
+    public function setName($name)
+    {
         $this->name = $name;
     }
 
-    public function setPath($path) {
+    public function setPath($path)
+    {
         $this->path = $path;
     }
 
-    public function open() {
+    public function open()
+    {
         $this->handler = $this->openFile($this->getPath());
         return $this->handler;
     }
 
-    public function getHandler() {
-        if (empty($this->handler)) {
+    public function getHandler()
+    {
+        if (empty($this->handler))
+        {
             $this->open();
         }
         return $this->handler;
     }
 
-    public function checkProperty($key) {
-        if (!property_exists($this, $key)) {
+    public function checkProperty($key)
+    {
+        if (!property_exists($this, $key))
+        {
             throw new PropertyMissingException(sprintf("Property %s of Class File is missing!", $key), 2);
         }
-        if (empty($this->{$key})) {
+        if (empty($this->{$key}))
+        {
             throw new ConfigurationMissingException(sprintf("Configuration %s is missing!", $key), 2);
         }
     }
 
-    public function checkHandler() {
-        if (empty($this->handler)) {
+    public function checkHandler()
+    {
+        if (empty($this->handler))
+        {
             return false;
-        } else {
+        }
+        else
+        {
             return true;
         }
     }
 
-    public function close() {
+    public function close()
+    {
         return false;
     }
 
-    public function reset() {
+    public function reset()
+    {
         return true;
     }
+    
+    public function getColumnsAllowed()
+    {
+        if (empty($this->columnsAllowed))
+        {
+            return FALSE;
+        }
+        else
+        {
+            return $this->columnsAllowed;
+        }
+    }
+
+    public function setColumnsAllowed($columnsAllowed)
+    {
+        $this->columnsAllowed = $columnsAllowed;
+    }
+
 
 }
