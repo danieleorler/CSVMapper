@@ -1,4 +1,5 @@
-inehrit: true
+imports:
+  - php
 
 tools:
   external_code_coverage:
