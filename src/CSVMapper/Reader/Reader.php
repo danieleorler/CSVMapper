@@ -3,7 +3,7 @@
 namespace CSVMapper\Reader;
 
 use CSVMapper\Parser\Parser;
-use CSVMapper\Source\File;
+use CSVMapper\Source\AbstractSource;
 use CSVMapper\Exception\WrongColumnsNumberException;
 
 /**
@@ -22,7 +22,7 @@ class Reader
         return $this->file;
     }
 
-    public function setFile(File $file)
+    public function setFile(AbstractSource $file)
     {
         $this->file = $file;
         $this->isFileOk();
@@ -47,7 +47,7 @@ class Reader
 
     private function checkColumnsNumber()
     {
-        $fileColumns = $this->file->getFileColumns();
+        $fileColumns = $this->file->getColumnsCount();
         $allowedColumns = $this->file->getColumnsAllowed();
         if ($allowedColumns && $fileColumns != $allowedColumns)
         {
@@ -58,7 +58,7 @@ class Reader
 
     public function getNextRow()
     {
-        $rawRow = $this->file->getRawRow();
+        $rawRow = $this->file->getRowAsArray();
         if(!empty($rawRow))
         {
             return $this->parser->parse($rawRow);

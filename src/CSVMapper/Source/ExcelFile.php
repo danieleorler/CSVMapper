@@ -11,14 +11,14 @@ namespace CSVMapper\Source;
 use PHPExcel_IOFactory;
 use PHPExcel_Cell;
 
-class ExcelFile extends File
+class ExcelFile extends AbstractSource
 {
 
     private $rowNumber = 1;
 
-    public function openFile($path)
+    public function open()
     {
-        $inputFileName = $path;
+        $inputFileName = $this->getPath();
         /**  Identify the type of $inputFileName  * */
         $inputFileType = PHPExcel_IOFactory::identify($inputFileName);
         /**  Create a new Reader of the type that has been identified  * */
@@ -29,7 +29,7 @@ class ExcelFile extends File
         return $objPHPExcel;
     }
 
-    public function getFileColumns()
+    public function getColumnsCount()
     {
         $objPHPExcel = $this->getHandler();
         $objWorksheet = $objPHPExcel->setActiveSheetIndex(0);
@@ -38,12 +38,12 @@ class ExcelFile extends File
         return $highestColumnIndex;
     }
 
-    public function getRawRow()
+    public function getRowAsArray()
     {
         $values = array();
         $objPHPExcel = $this->getHandler();
         $objWorksheet = $objPHPExcel->setActiveSheetIndex(0);
-        $highestColumnIndex = $this->getFileColumns();
+        $highestColumnIndex = $this->getColumnsCount();
 
 
         for ($col = 0; $col <= $highestColumnIndex - 1; $col++)

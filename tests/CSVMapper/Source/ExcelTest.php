@@ -77,7 +77,7 @@ class ExcelTest extends \PHPUnit_Framework_TestCase {
         $file->open();
 
         if ($file->hasRow()) {
-            $array = $file->getRawRow();
+            $array = $file->getRowAsArray();
         }
 
         $this->assertEquals($array, $this->testValues);
@@ -255,7 +255,7 @@ class ExcelTest extends \PHPUnit_Framework_TestCase {
         $file->setName('TestBook.xlsx');
         $file->open();
 
-        $this->assertFalse($file->checkHandler() == null);      
+        $this->assertFalse($file->checkHandler());      
     }
     
         public function testCheckHandlerIfNotSet()
@@ -268,43 +268,5 @@ class ExcelTest extends \PHPUnit_Framework_TestCase {
 
         $this->assertTrue($file->checkHandler() == null);      
     }
-
-
-
-
-//    public function testTestNotPassed() {
-//
-//        $rows = array();
-//
-//        $XLSFile = new ExcelFile();
-//        $XLSFile->setColumnsAllowed(3);
-//        $XLSFile->setFolder('./tests/ExcelTest');
-//        $XLSFile->setName('TestBook.xlsx');
-//
-//        $XLSMapping = new MappingManager();
-//
-//        $XLSMapping->set_mapping("campo", array('key' => "0", 'fn' => FALSE, 'test' => FALSE));
-//        $XLSMapping->set_mapping("campo2", array('key' => 1, 'fn' => FALSE, 'test' => create_function('$input', 'return ($input<3);')));
-//        $XLSMapping->set_mapping("campo3", array('key' => 2, 'fn' => FALSE, 'test' => FALSE));
-//
-//
-//        $XLSSetting = new YamlSettingManager('./tests/ExcelTest/TestBookMappings.yml');
-//        $XLSError = new ErrorManager();
-//        $XLSParser = new Parser();
-//        $XLSReader = new Reader();
-//
-//
-//        $XLSParser->setErrorManager($XLSError);
-//        $XLSParser->setMappingManager($XLSMapping);
-//
-//        $XLSReader->setFile($XLSFile);
-//        $XLSReader->setParser($XLSParser);
-//
-//        while ($XLSFile->hasRow()) {
-//            $rows = $XLSFile->getRawRow();
-//        }
-//
-//        $XLSReader->close();
-//    }
 
 }

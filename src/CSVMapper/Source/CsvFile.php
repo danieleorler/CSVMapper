@@ -1,11 +1,5 @@
 <?php
 
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
 namespace CSVMapper\Source;
 
 /**
@@ -13,13 +7,14 @@ namespace CSVMapper\Source;
  *
  * @author danorler
  */
-class CsvFile extends File
+
+class CsvFile extends AbstractSource
 {
     /*
-     *  field delimiter
+     *  field separator
      */
-
     private $separator = ';';
+
     /*
      * field enclosure character
      */
@@ -45,9 +40,9 @@ class CsvFile extends File
         $this->enclosure = $enclosure;
     }
 
-    public function openFile($path)
+    public function open()
     {
-        $handler = fopen($path, "r");
+        $handler = fopen($this->getPath(), "r");
         return $handler;
     }
 
@@ -68,14 +63,14 @@ class CsvFile extends File
         }
     }
 
-    public function getFileColumns()
+    public function getColumnsCount()
     {
         $fileColumns = count(fgetcsv($this->getHandler(), 0, $this->getSeparator(), $this->getEnclosure()));
         $this->reset();
         return $fileColumns;
     }
 
-    public function getRawRow()
+    public function getRowAsArray()
     {
         $rawRow = fgetcsv($this->getHandler(), 0, $this->getSeparator(), $this->getEnclosure());
         return $rawRow;
