@@ -1,5 +1,4 @@
 vendor
-composer.lock
 rsync.sh
 rsync_exclude
 nbproject
